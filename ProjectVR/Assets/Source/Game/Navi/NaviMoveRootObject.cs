@@ -12,9 +12,9 @@ public class NaviMoveRootObject : NaviMoveObject
 	};
 
 	protected List<Vector3> m_moveRootPosList = null;
-	protected eMoveType m_moveType = eMoveType.OrderAsc;
+	protected eMoveType m_moveType = eMoveType.Random;
 	protected int m_rootListIndex = 0;
-	void Awake()
+	new void Awake()
 	{
 		base.Awake();
 
@@ -37,16 +37,24 @@ public class NaviMoveRootObject : NaviMoveObject
 
 	}
 
+	/// <summary>
+	/// 次の目的地を設定
+	/// </summary>
 	public void ChangeToNextTarget()
 	{
 		if( m_moveRootPosList== null || m_moveRootPosList.Count == 0 ) {
 			return;
 		}
-
+		//次の座標のインデックスを計算
 		CalcNextTargetIndex();
+		//次の座標をナビゲーションに設定
 		SetDestination( m_moveRootPosList[ m_rootListIndex ] );
 	}
 
+
+	/// <summary>
+	/// 次の座標のインデックスを計算
+	/// </summary>
 	public void	CalcNextTargetIndex()
 	{
 		switch( m_moveType ) {
@@ -56,13 +64,18 @@ public class NaviMoveRootObject : NaviMoveObject
 			case eMoveType.OrderDesc:
 				m_rootListIndex = (m_rootListIndex - 1);
 				if(m_rootListIndex < 0) {
-					m_rootListIndex = (m_moveRootPosList.Count);
+					m_rootListIndex = (m_moveRootPosList.Count-1);
 				}
 				break;
 			case eMoveType.Random:
-				m_rootListIndex = Random.Range( 0 , m_moveRootPosList.Count-1 );
+				m_rootListIndex = Random.Range( 0 , m_moveRootPosList.Count );
 				break;
 		}
+	}
+
+	public void AddRootPos( Vector3 pos )
+	{
+		m_moveRootPosList.Add( pos );
 	}
 
 }
