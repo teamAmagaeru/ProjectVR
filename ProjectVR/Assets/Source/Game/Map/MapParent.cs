@@ -26,31 +26,29 @@ public class MapParent : MonoBehaviour {
                     {
                         m_stageParent = obj.GetComponent<StageParent>();
                         obj.transform.parent = transform;
+                        obj.transform.localPosition = Vector3.zero;
+                        obj.transform.localScale = Vector3.one;
+                        obj.transform.localRotation = new Quaternion();
                         m_step = eStep.Update;
                     }
                 }
                 break;
             case eStep.Update:
-                if (Input.GetKey(KeyCode.RightArrow))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    transform.Rotate(0.0f, 1.0f, 0.0f);
+                    transform.localRotation = new Quaternion();
                 }
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    transform.Rotate(0.0f, -1.0f, 0.0f);
-                }
-                if (Input.GetKey(KeyCode.UpArrow))
+                Vector3 right = InputManager.GetMove(InputManager.MouseButton.Right);
+                transform.Rotate(right.y * 0.1f, -right.x * 0.1f, 0.0f);
+                Vector3 left = InputManager.GetMove(InputManager.MouseButton.Left);
                 {
                     Vector3 pos = transform.position;
-                    pos.y += 1.0f;
+                    pos.x += left.x * 0.1f;
+                    pos.y += left.y * 0.1f;
                     transform.position = pos;
                 }
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    Vector3 pos = transform.position;
-                    pos.y -= 1.0f;
-                    transform.position = pos;
-                }
+                float wheel = InputManager.GetWheel();
+                transform.localScale *= 1.0f + wheel;
                 break;
         }
     }

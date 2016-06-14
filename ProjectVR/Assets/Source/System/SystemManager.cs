@@ -26,6 +26,7 @@ public class SystemManager : MonoBehaviour {
         {
             case eStep.Init:
                 CharaManager.SysCreate();
+                InputManager.SysCreate();
                 // マップクラス作成.
                 CreateMap();
                 ++m_step;
@@ -35,6 +36,7 @@ public class SystemManager : MonoBehaviour {
                 break;
             case eStep.Update:
                 CharaManager.SysUpdate();
+                InputManager.SysUpdate();
                 if (m_mapParent != null)
                 {
                     if (Input.GetKeyDown(KeyCode.Keypad0))
