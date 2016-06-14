@@ -13,36 +13,45 @@ public class MapParent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (m_stageParent==null && m_isReqLoadMap)
-        {
-            GameObject obj = GameObject.Find("StageParent");
-            if (obj != null)
-            {
-                m_stageParent = obj.GetComponent<StageParent>();
-                m_isReqLoadMap = false;
-                obj.transform.parent = transform;
-            }
-        }
+        switch (m_step) {
+            case eStep.ReqLoad:
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_stageName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Rotate(0.0f, 1.0f, 0.0f);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Rotate(0.0f, -1.0f, 0.0f);
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            Vector3 pos = transform.position;
-            pos.y += 1.0f;
-            transform.position = pos;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            Vector3 pos = transform.position;
-            pos.y -= 1.0f;
-            transform.position = pos;
+                m_step = eStep.Load;
+                break;
+            case eStep.Load:
+                {
+                    GameObject obj = GameObject.Find("StageParent");
+                    if (obj != null)
+                    {
+                        m_stageParent = obj.GetComponent<StageParent>();
+                        obj.transform.parent = transform;
+                        m_step = eStep.Update;
+                    }
+                }
+                break;
+            case eStep.Update:
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    transform.Rotate(0.0f, 1.0f, 0.0f);
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    transform.Rotate(0.0f, -1.0f, 0.0f);
+                }
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    Vector3 pos = transform.position;
+                    pos.y += 1.0f;
+                    transform.position = pos;
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    Vector3 pos = transform.position;
+                    pos.y -= 1.0f;
+                    transform.position = pos;
+                }
+                break;
         }
     }
 
@@ -52,9 +61,9 @@ public class MapParent : MonoBehaviour {
     /// <param name="sceneName">シーン名</param>
     public void LoadMap(string sceneName)
     {
+        UnloadMap();
         m_stageName = sceneName;
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_stageName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
-        m_isReqLoadMap = true;
+        m_step = eStep.ReqLoad;
     }
     /// <summary>
     /// マップ解放.
@@ -68,8 +77,13 @@ public class MapParent : MonoBehaviour {
             UnityEngine.SceneManagement.SceneManager.UnloadScene(m_stageName);
         }
     }
-
-    bool m_isReqLoadMap = false;
+    
     string m_stageName = "";
     StageParent m_stageParent = null;
+    enum eStep {
+        ReqLoad = 0,    // 読み込みリクエスト.
+        Load,           // 読み込み中.
+        Update,         // 通常時.
+    }
+    eStep m_step = eStep.Update;
 }
