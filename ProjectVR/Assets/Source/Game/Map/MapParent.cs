@@ -68,10 +68,13 @@ public class MapParent : MonoBehaviour {
     /// </summary>
     public void UnloadMap()
     {
-        if (m_stageName != "")
+        if (m_stageParent != null)
         {
             GameObject.Destroy(m_stageParent.gameObject);
             m_stageParent = null;
+        }
+        if (m_stageName != "")
+        {
             UnityEngine.SceneManagement.SceneManager.UnloadScene(m_stageName);
         }
     }

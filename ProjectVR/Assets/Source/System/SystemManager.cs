@@ -39,11 +39,11 @@ public class SystemManager : MonoBehaviour {
                 InputManager.SysUpdate();
                 if (m_mapParent != null)
                 {
-                    if (Input.GetKeyDown(KeyCode.Keypad0))
+                    if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
                     {
                         m_mapParent.LoadMap("stage00_00");
                     }
-                    if (Input.GetKeyDown(KeyCode.Keypad1))
+                    if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
                     {
                         m_mapParent.LoadMap("stage00_01");
                     }
