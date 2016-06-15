@@ -40,11 +40,11 @@ public class MapParent : MonoBehaviour {
                 }
                 Vector3 right = InputManager.GetMove(InputManager.MouseButton.Right);
                 transform.Rotate(right.y * 0.1f, -right.x * 0.1f, 0.0f);
-                Vector3 left = InputManager.GetMove(InputManager.MouseButton.Left);
+                Vector3 middle = InputManager.GetMove(InputManager.MouseButton.Middle);
                 {
                     Vector3 pos = transform.position;
-                    pos.x += left.x * 0.1f;
-                    pos.y += left.y * 0.1f;
+                    pos.x += middle.x * 0.1f;
+                    pos.y += middle.y * 0.1f;
                     transform.position = pos;
                 }
                 float wheel = InputManager.GetWheel();

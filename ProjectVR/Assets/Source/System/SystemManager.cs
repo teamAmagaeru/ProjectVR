@@ -19,6 +19,7 @@ public class SystemManager : MonoBehaviour {
     eStep m_step = eStep.Init;
 
     MapParent m_mapParent = null;
+    HandRay m_ray = null;
 
 	// Update is called once per frame
 	void Update () {
@@ -28,7 +29,15 @@ public class SystemManager : MonoBehaviour {
                 CharaManager.SysCreate();
                 InputManager.SysCreate();
                 // マップクラス作成.
-                CreateMap();
+                if (m_mapParent == null)
+                {
+                    m_mapParent = Create<MapParent>("Prefab/Map/MapParent");
+                }
+                // レイ.
+                if (m_ray == null)
+                {
+                    m_ray = Create<HandRay>("Prefab/HandRay");
+                }
                 ++m_step;
                 break;
             case eStep.InitWait:
@@ -55,23 +64,24 @@ public class SystemManager : MonoBehaviour {
                 break;
         }
 	}
-
+    
     /// <summary>
-    /// マップクラス作成.
+    /// クラス生成.
     /// </summary>
-    void CreateMap()
+    /// <typeparam name="T">生成したいクラス(GetComopnentするだけ)</typeparam>
+    /// <param name="prefabName">プレハブの名前</param>
+    /// <returns></returns>
+    T Create<T>(string prefabName)
     {
-        if (m_mapParent == null)
+        Object obj = Instantiate(Resources.Load(prefabName));
+        if (obj != null)
         {
-            Object obj = Instantiate(Resources.Load("Prefab/Map/MapParent"));
-            if (obj != null)
+            GameObject go = obj as GameObject;
+            if (go != null)
             {
-                GameObject go = obj as GameObject;
-                if (go != null)
-                {
-                    m_mapParent = go.GetComponent<MapParent>();
-                }
+                return go.GetComponent<T>();
             }
         }
+        return default(T);
     }
 }
