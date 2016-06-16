@@ -68,7 +68,7 @@ public class HandRay : MonoBehaviour {
                     m_debugPoint.GetComponent<MeshRenderer>().material.color = Color.red;
                 }
                 m_debugPoint.transform.position = hits[min].point;
-                Debug.LogFormat(hits[min].transform.gameObject, "HitPos x={0},y={1},z={2}", hits[min].point.x, hits[min].point.y, hits[min].point.z);
+//                Debug.LogFormat(hits[min].transform.gameObject, "HitPos x={0},y={1},z={2}", hits[min].point.x, hits[min].point.y, hits[min].point.z);
             }
         }
     }
