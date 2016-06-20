@@ -14,6 +14,12 @@ public class Route
 	protected int m_routeListIndex = 0;
 	protected eMoveType m_moveType = eMoveType.Random;
 
+	public Route( )
+	{
+		this.m_moveType = eMoveType.OrderAsc;
+		this.m_moveRoutePosList = new List<Vector3>();
+		this.m_routeListIndex = 0;
+	}
 	public Route( eMoveType moveType )
 	{
 		this.m_moveType = moveType;
@@ -50,18 +56,7 @@ public class Route
 	/// <returns></returns>
 	public bool CalcNearRoutePos( Vector3 pos )
 	{
-		bool is_set = false;
-		float dis = 1000000f;
-		for( int i = 0 ; i < this.m_moveRoutePosList.Count ; i++ ) {
-			float temp_dis = Vector3.Distance( this.m_moveRoutePosList[i] , pos );
-			if( temp_dis < dis ) {
-				dis = temp_dis;
-				this.m_routeListIndex = i;
-				is_set = true;
-			}
-		}
-
-		return is_set;
+		return MyMath.CalcNearPos( ref this.m_routeListIndex , pos , this.m_moveRoutePosList );
 	}
 
 	public int GetRouteCount()
@@ -80,6 +75,11 @@ public class Route
 	public void AddRoutePos( Vector3 pos )
 	{
 		this.m_moveRoutePosList.Add( pos );
+	}
+
+	public void SetMoveType( eMoveType type )
+	{
+		this.m_moveType = type;
 	}
 
 }
