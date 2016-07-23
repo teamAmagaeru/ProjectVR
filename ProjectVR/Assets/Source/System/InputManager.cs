@@ -25,6 +25,7 @@ public class InputManager
     /// <returns>true:存在する false存在しない</returns>
     static public bool ExistDevice(eDeviceType deviceType)
     {
+#if ENABLE_HTC
         if (m_instance == null)
         {
             Debug.LogError("no instance");
@@ -32,6 +33,9 @@ public class InputManager
         }
         GameObject go = GameObject.Find(GetDeviceName(deviceType));
         return GameObject.Find(GetDeviceName(deviceType)) != null;
+#else
+        return true;
+#endif
     }
     /// <summary>
     /// デバイスのTransform取得.
@@ -40,12 +44,25 @@ public class InputManager
     /// <returns>transform.デバイスが存在しなければnull</returns>
     static public Transform GetTransform(eDeviceType deviceType)
     {
+#if ENABLE_HTC
         ViveInput input = GetViveInput(deviceType);
         if (input == null)
         {
             return null;
         }
         return input.transform;
+#else
+        string name = "";
+        switch (deviceType) {
+            case eDeviceType.Left:
+                name = "LeftDevice";
+                break;
+            case eDeviceType.Right:
+                name = "RightDevice";
+                break;
+        }
+        return GameObject.Find(name).transform;
+#endif
     }
     /// <summary>
     /// トリガーを引いた瞬間か?.
@@ -54,12 +71,22 @@ public class InputManager
     /// <returns>true:引いた瞬間 false:それ以外</returns>
     static public bool IsPullTrigger(eDeviceType deviceType)
     {
+#if ENABLE_HTC
         ViveInput input = GetViveInput(deviceType);
         if (input == null)
         {
             return false;
         }
         return input.IsPullTrigger();
+#else
+        if (NotHtcInput.isDeviceMatch(deviceType)){
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                return true;
+            }
+        }
+        return false;
+#endif
     }
     /// <summary>
     /// コントローラーを振動させる.
@@ -69,17 +96,22 @@ public class InputManager
     /// <param name="value">振動値.最大3999だが、100～2000辺りが有効範囲らしい</param>
     static public void TriggerHapticPulse(eDeviceType deviceType, ushort value,float time)
     {
+#if ENABLE_HTC
         ViveInput input = GetViveInput(deviceType);
         if (input == null)
         {
             return;
         }
         input.TriggerHapticPulse(value,time);
+#else
+        Debug.Log("バイブ!!");
+#endif
+
     }
 
 
 
-    #region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
+#region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
     /// <summary>
     /// マウスボタンの種類.
     /// </summary>
@@ -203,6 +235,6 @@ public class InputManager
         return parent.GetComponent<ViveInput>();
     }
 
-    #endregion
+#endregion
 
 }

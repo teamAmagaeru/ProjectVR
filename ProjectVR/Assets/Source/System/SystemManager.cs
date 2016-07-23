@@ -4,13 +4,22 @@ using System.Collections;
 public class SystemManager : MonoBehaviour {
     void Awake()
     {
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
         DontDestroyOnLoad(this);
     }
     // Use this for initialization
-    void Start () {
-	
-	}
-	
+    void Start ()
+    {
+    }
+
+    string sceneName =
+#if ENABLE_HTC
+        "htcCamera";
+#else
+        "notHtcCamera";
+#endif
+
+
     enum eStep {
         Init = 0,
         InitWait,
@@ -28,16 +37,6 @@ public class SystemManager : MonoBehaviour {
             case eStep.Init:
                 CharaManager.SysCreate();
                 InputManager.SysCreate();
-                // マップクラス作成.
-                if (m_mapParent == null)
-                {
-                    m_mapParent = Create<MapParent>("Prefab/Map/MapParent");
-                }
-                // レイ.
-                if (m_ray == null)
-                {
-                    m_ray = Create<HandRay>("Prefab/HandRay");
-                }
                 ++m_step;
                 break;
             case eStep.InitWait:
@@ -46,23 +45,6 @@ public class SystemManager : MonoBehaviour {
             case eStep.Update:
                 CharaManager.SysUpdate();
                 InputManager.SysUpdate();
-                /*
-                if (m_mapParent != null)
-                {
-                    if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
-                    {
-                        m_mapParent.LoadMap("stage00_00");
-                    }
-                    if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
-                    {
-                        m_mapParent.LoadMap("stage00_01");
-                    }
-                    if (Input.GetKeyDown(KeyCode.Backspace))
-                    {
-                        m_mapParent.UnloadMap();
-                    }
-                }
-                */
                 if (InputManager.IsPullTrigger(InputManager.eDeviceType.Left))
                 {
                     InputManager.TriggerHapticPulse(InputManager.eDeviceType.Left, 1000, 0.1f);
@@ -75,10 +57,10 @@ public class SystemManager : MonoBehaviour {
                 }
                 if (InputManager.ExistDevice(InputManager.eDeviceType.Left))
                 {
-                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Left).position);
+ //                   Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Left).position);
                 }
                 if (InputManager.ExistDevice(InputManager.eDeviceType.Right)) {
-                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Right).position);
+//                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Right).position);
                 }
                 break;
         }
