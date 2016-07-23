@@ -46,6 +46,7 @@ public class SystemManager : MonoBehaviour {
             case eStep.Update:
                 CharaManager.SysUpdate();
                 InputManager.SysUpdate();
+                /*
                 if (m_mapParent != null)
                 {
                     if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
@@ -60,6 +61,24 @@ public class SystemManager : MonoBehaviour {
                     {
                         m_mapParent.UnloadMap();
                     }
+                }
+                */
+                if (InputManager.IsPullTrigger(InputManager.eDeviceType.Left))
+                {
+                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Left, 1000, 0.1f);
+                    Debug.Log("left trigger");
+                }
+                if (InputManager.IsPullTrigger(InputManager.eDeviceType.Right))
+                {
+                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Right, 1000, 0.1f);
+                    Debug.Log("right trigger");
+                }
+                if (InputManager.ExistDevice(InputManager.eDeviceType.Left))
+                {
+                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Left).position);
+                }
+                if (InputManager.ExistDevice(InputManager.eDeviceType.Right)) {
+                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Right).position);
                 }
                 break;
         }

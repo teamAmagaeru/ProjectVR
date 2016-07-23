@@ -7,6 +7,80 @@ using System.Collections;
 public class InputManager
 {
     /// <summary>
+    /// デバイスの種類.
+    /// </summary>
+    public enum eDeviceType
+    {
+        Left = 0,   // 左手.
+        Right,      // 右手.
+        Hmd,        // 頭.
+
+        Num
+    }
+
+    /// <summary>
+    /// デバイスの存在確認.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <returns>true:存在する false存在しない</returns>
+    static public bool ExistDevice(eDeviceType deviceType)
+    {
+        if (m_instance == null)
+        {
+            Debug.LogError("no instance");
+            return false;
+        }
+        GameObject go = GameObject.Find(GetDeviceName(deviceType));
+        return GameObject.Find(GetDeviceName(deviceType)) != null;
+    }
+    /// <summary>
+    /// デバイスのTransform取得.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <returns>transform.デバイスが存在しなければnull</returns>
+    static public Transform GetTransform(eDeviceType deviceType)
+    {
+        ViveInput input = GetViveInput(deviceType);
+        if (input == null)
+        {
+            return null;
+        }
+        return input.transform;
+    }
+    /// <summary>
+    /// トリガーを引いた瞬間か?.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <returns>true:引いた瞬間 false:それ以外</returns>
+    static public bool IsPullTrigger(eDeviceType deviceType)
+    {
+        ViveInput input = GetViveInput(deviceType);
+        if (input == null)
+        {
+            return false;
+        }
+        return input.IsPullTrigger();
+    }
+    /// <summary>
+    /// コントローラーを振動させる.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <param name="time">振動時間(sec)</param>
+    /// <param name="value">振動値.最大3999だが、100～2000辺りが有効範囲らしい</param>
+    static public void TriggerHapticPulse(eDeviceType deviceType, ushort value,float time)
+    {
+        ViveInput input = GetViveInput(deviceType);
+        if (input == null)
+        {
+            return;
+        }
+        input.TriggerHapticPulse(value,time);
+    }
+
+
+
+    #region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
+    /// <summary>
     /// マウスボタンの種類.
     /// </summary>
     public enum MouseButton
@@ -18,8 +92,19 @@ public class InputManager
         Num
     };
 
+    static string[] m_deviceName = new string[(int)eDeviceType.Num] {
+        "Controller (left)",
+        "Controller (right)",
+        "Camera (head)"
+    };
+    static string GetDeviceName(eDeviceType type)
+    {
+        return m_deviceName[(int)type];
+    }
+
     Vector3? m_oldPos = null;
     Vector3? m_oldOldPos = null;
+
 
     static public void SysCreate()
     {
@@ -47,11 +132,12 @@ public class InputManager
     protected static InputManager m_instance = null;
     static public InputManager instance
     {
-        get {
+        get
+        {
             return m_instance;
         }
     }
-    
+
     protected void Create()
     {
     }
@@ -94,4 +180,29 @@ public class InputManager
     {
         return Input.GetAxis("Mouse ScrollWheel");
     }
+
+
+    /// <summary>
+    /// inputクラス取得.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <returns>inputクラス.存在しなければnull</returns>
+    static ViveInput GetViveInput(eDeviceType deviceType)
+    {
+        if (m_instance == null)
+        {
+            Debug.LogError("no instance");
+            return null;
+        }
+        GameObject parent = GameObject.Find(GetDeviceName(deviceType));
+        if (parent == null)
+        {
+            return null;
+        }
+
+        return parent.GetComponent<ViveInput>();
+    }
+
+    #endregion
+
 }
