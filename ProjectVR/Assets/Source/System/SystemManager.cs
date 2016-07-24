@@ -4,7 +4,7 @@ using System.Collections;
 public class SystemManager : MonoBehaviour {
     void Awake()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        LoadCameraScene();
         DontDestroyOnLoad(this);
     }
     // Use this for initialization
@@ -62,6 +62,10 @@ public class SystemManager : MonoBehaviour {
                 if (InputManager.ExistDevice(InputManager.eDeviceType.Right)) {
 //                    Debug.Log("pos = " + InputManager.GetTransform(InputManager.eDeviceType.Right).position);
                 }
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    ChangeScene("stageSelect");
+                }
                 break;
         }
 	}
@@ -72,7 +76,7 @@ public class SystemManager : MonoBehaviour {
     /// <typeparam name="T">生成したいクラス(GetComopnentするだけ)</typeparam>
     /// <param name="prefabName">プレハブの名前</param>
     /// <returns></returns>
-    T Create<T>(string prefabName)
+    static public T Create<T>(string prefabName)
     {
         Object obj = Instantiate(Resources.Load(prefabName));
         if (obj != null)
@@ -84,5 +88,23 @@ public class SystemManager : MonoBehaviour {
             }
         }
         return default(T);
+    }
+    static string m_currentSceneName = "initialize";
+
+    /// <summary>
+    /// シーン読み込み.
+    /// </summary>
+    /// <param name="sceneName">シーン名</param>
+    static public void ChangeScene(string sceneName)
+    {
+        if (m_currentSceneName != "")
+        {
+            UnityEngine.SceneManagement.SceneManager.UnloadScene(m_currentSceneName);
+        }
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+    }
+    void LoadCameraScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
     }
 }
