@@ -47,12 +47,12 @@ public class SystemManager : MonoBehaviour {
                 InputManager.SysUpdate();
                 if (InputManager.IsPullTrigger(InputManager.eDeviceType.Left))
                 {
-                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Left, 1000, 0.1f);
+                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Left, Define.Controller.ShootVibrationValue, Define.Controller.ShootVibrationTime);
                     Debug.Log("left trigger");
                 }
                 if (InputManager.IsPullTrigger(InputManager.eDeviceType.Right))
                 {
-                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Right, 1000, 0.1f);
+                    InputManager.TriggerHapticPulse(InputManager.eDeviceType.Right, Define.Controller.ShootVibrationValue, Define.Controller.ShootVibrationTime);
                     Debug.Log("right trigger");
                 }
                 if (InputManager.ExistDevice(InputManager.eDeviceType.Left))

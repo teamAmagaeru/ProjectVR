@@ -4,18 +4,19 @@ using System.Collections.Generic;
 
 public class ViveInput : MonoBehaviour {
 
+
+
     // Use this for initialization
     void Start () {
     }
 	
 	// Update is called once per frame
 	void Update () {
-        SteamVR_TrackedObject trackedObject = GetComponent<SteamVR_TrackedObject>();
-        if (trackedObject == null || trackedObject.index == SteamVR_TrackedObject.EIndex.None)
+        var device = GetDevice();
+        if (device == null)
         {
             return;
         }
-        var device = SteamVR_Controller.Input((int)trackedObject.index);
 
         LogUpdate(device);
 
@@ -28,6 +29,18 @@ public class ViveInput : MonoBehaviour {
                 m_vibrationTime = null;
             }
             device.TriggerHapticPulse(m_vibrationValue);
+        }
+        // タッチパッド押しっぱなしでチャージ.
+        if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            m_chargeTime += Time.deltaTime;
+            float rate = m_chargeTime / Define.Controller.ChargeTime;
+            ushort value = (ushort)(Mathf.Lerp(Define.Controller.ChargeVibrationValueMin, Define.Controller.ChargeVibrationValueMax, rate));
+            device.TriggerHapticPulse(value);
+        }
+        else
+        {
+            m_chargeTime = 0.0f;
         }
     }
 
@@ -51,11 +64,27 @@ public class ViveInput : MonoBehaviour {
     }
 
     TimeCounter m_vibrationTime = null;
+    float m_chargeTime = 0.0f;
     ushort m_vibrationValue = 0;
 
     bool m_isTriggerMax = false;
     bool m_isPullTrigger = false;
 
+
+    /// <summary>
+    /// デバイス取得.
+    /// </summary>
+    /// <returns>デバイス.無かったらnull</returns>
+    SteamVR_Controller.Device GetDevice()
+    {
+
+        SteamVR_TrackedObject trackedObject = GetComponent<SteamVR_TrackedObject>();
+        if (trackedObject == null || trackedObject.index == SteamVR_TrackedObject.EIndex.None)
+        {
+            return null;
+        }
+        return SteamVR_Controller.Input((int)trackedObject.index);
+    }
 
 
     void LogUpdate(SteamVR_Controller.Device device) {
