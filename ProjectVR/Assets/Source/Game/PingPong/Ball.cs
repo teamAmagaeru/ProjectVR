@@ -40,7 +40,10 @@ public class Ball : MonoBehaviour {
 
 		if( IsDelete() )
 		{
-			m_parent.DeleteBall(this);
+			if( m_parent != null )
+			{
+				m_parent.DeleteBall(this);
+			}
 			Destroy( this.gameObject );
 		}
 	}
@@ -53,12 +56,12 @@ public class Ball : MonoBehaviour {
 			return true;
 		}
 
-		if( m_bound_cnt >= m_init_data.bound_num )
+		if( m_init_data.bound_num > 0 && m_bound_cnt >= m_init_data.bound_num )
 		{
 			return true;
 		}
 
-		if( m_timer >= m_init_data.time )
+		if( m_init_data.time > 0 && m_timer >= m_init_data.time )
 		{
 			return true;
 		}
