@@ -15,6 +15,7 @@ public class Shooter : MonoBehaviour {
 		m_device_type = device_type;
 		transform.parent = InputManager.GetTransform( m_device_type );
 		transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
 
 	}
 
