@@ -28,7 +28,7 @@ public class ViveInput : MonoBehaviour {
             {
                 m_vibrationTime = null;
             }
-//            device.TriggerHapticPulse(m_vibrationValue);
+            device.TriggerHapticPulse(m_vibrationValue);
         }
         // タッチパッド押しっぱなしでチャージ.
         if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
@@ -74,7 +74,7 @@ public class ViveInput : MonoBehaviour {
     public void TriggerHapticPulse(ushort value,float time)
     {
         m_vibrationValue = value;
-        m_vibrationTime = new TimeCounter(time);
+        m_vibrationTime = new TimeCounter(TimeCounter.eType.CountDowwn, time);
     }
 
     TimeCounter m_vibrationTime = null;

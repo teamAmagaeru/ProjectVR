@@ -40,9 +40,9 @@ public class GameStateManager : MonoBehaviour {
 		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
 
 		Vector3 pos = new Vector3();
-		pos.x = Random.Range( 0f , 2f );
-		pos.y = Random.Range( 0f , 2f );
-		pos.z = Random.Range( 0f , 2f );
+		pos.x = Random.Range( -5.0f , 5.0f );
+		pos.y = Random.Range(  0.5f , 1.5f );
+		pos.z = Random.Range(  1.0f , 3.0f );
 
 		goal_obj.transform.position = pos;
 		m_goal.Add( goal_obj.GetComponent<GoalTarget>() );

@@ -57,11 +57,11 @@ public class SystemManager : MonoBehaviour {
                 }
                 if (InputManager.IsPressTouchpad(InputManager.eDeviceType.Left))
                 {
-                    Debug.Log("left press touchpad");
+//                    Debug.Log("left press touchpad");
                 }
                 if (InputManager.IsPressTouchpad(InputManager.eDeviceType.Right))
                 {
-                    Debug.Log("right press touchpad");
+//                    Debug.Log("right press touchpad");
                 }
                 if (InputManager.ExistDevice(InputManager.eDeviceType.Left))
                 {

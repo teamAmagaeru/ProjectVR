@@ -10,6 +10,9 @@ public class Shooter : MonoBehaviour {
 	private int m_ball_index = 0;
 	private InputManager.eDeviceType m_device_type;
 
+    private TimeCounter m_chargeTime = null;
+    private int m_chargeLevel = 0;
+
 	public void Init( InputManager.eDeviceType device_type)
 	{
 		m_device_type = device_type;
@@ -25,12 +28,45 @@ public class Shooter : MonoBehaviour {
 		{
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
 			Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
-			Vector3 force = transform.forward * 600;
+			Vector3 force = transform.forward * Define.Shooter.ChargeSetting[m_chargeLevel].Speed;
 			ball_init_data.force = force;
 			ball_init_data.bound_num = -1;
 			ball_init_data.time = -1;
 			Shot( ball_init_data );
 		}
+
+        // チャージ処理.
+        if (InputManager.IsPressTouchpad(m_device_type))
+        {
+            if (m_chargeTime == null)
+            {
+                float max = Define.Shooter.ChargeSetting[Define.Shooter.ChargeSetting.Length - 1].Time;
+                m_chargeTime = new TimeCounter(TimeCounter.eType.CountUp, max);
+            }else
+            {
+                int level = 0;
+                m_chargeTime.Update();
+                for(int i=0;i<Define.Shooter.ChargeSetting.Length;++i)
+                {
+                    if (m_chargeTime.time >= Define.Shooter.ChargeSetting[i].Time)
+                    {
+                        level = i;
+                    }
+                }
+                if(m_chargeLevel != level)
+                {
+                    Debug.LogFormat("チャージレベル{0}にアップ!", level);
+                    m_chargeLevel = level;
+                    InputManager.TriggerHapticPulse(m_device_type, Define.Controller.LevelChangeVibrationValue, Define.Controller.LevelChangeVibrationTime);
+                }
+            }
+
+        }else
+        {
+            // チャージを減らす処理めんどいし、離したらリセットで良くない...?.
+            m_chargeLevel = 0;
+            m_chargeTime = null;
+        }
 		
 	}
 
