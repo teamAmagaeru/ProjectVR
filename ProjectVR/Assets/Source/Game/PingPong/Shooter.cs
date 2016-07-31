@@ -24,7 +24,7 @@ public class Shooter : MonoBehaviour {
 		{
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
 			Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
-			Vector3 force = transform.forward * 300;
+			Vector3 force = transform.forward * 600;
 			ball_init_data.force = force;
 			ball_init_data.bound_num = -1;
 			ball_init_data.time = -1;
