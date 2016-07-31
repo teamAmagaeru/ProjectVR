@@ -89,6 +89,30 @@ public class InputManager
 #endif
     }
     /// <summary>
+    /// タッチパッドを押しているか?.
+    /// </summary>
+    /// <param name="deviceType">デバイスのタイプ</param>
+    /// <returns>true:押している false:離している</returns>
+    static public bool IsPressTouchpad(eDeviceType deviceType)
+    {
+#if ENABLE_HTC
+        ViveInput input = GetViveInput(deviceType);
+        if (input == null)
+        {
+            return false;
+        }
+        return input.IsPressTouchpad();
+#else
+        if (NotHtcInput.isDeviceMatch(deviceType)){
+            if (Input.GetKey(KeyCode.Z))
+            {
+                return true;
+            }
+        }
+        return false;
+#endif
+    }
+    /// <summary>
     /// コントローラーを振動させる.
     /// </summary>
     /// <param name="deviceType">デバイスのタイプ</param>
@@ -108,7 +132,6 @@ public class InputManager
 #endif
 
     }
-
 
 
 #region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//

@@ -28,7 +28,7 @@ public class ViveInput : MonoBehaviour {
             {
                 m_vibrationTime = null;
             }
-            device.TriggerHapticPulse(m_vibrationValue);
+//            device.TriggerHapticPulse(m_vibrationValue);
         }
         // タッチパッド押しっぱなしでチャージ.
         if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
@@ -36,7 +36,7 @@ public class ViveInput : MonoBehaviour {
             m_chargeTime += Time.deltaTime;
             float rate = m_chargeTime / Define.Controller.ChargeTime;
             ushort value = (ushort)(Mathf.Lerp(Define.Controller.ChargeVibrationValueMin, Define.Controller.ChargeVibrationValueMax, rate));
-            device.TriggerHapticPulse(value);
+//            device.TriggerHapticPulse(value);
         }
         else
         {
@@ -51,6 +51,20 @@ public class ViveInput : MonoBehaviour {
     public bool IsPullTrigger()
     {
         return m_isPullTrigger;
+    }
+    /// <summary>
+    /// タッチパッドを押しているか?.
+    /// </summary>
+    /// <returns>true:押している false:離している</returns>
+    public bool IsPressTouchpad()
+    {
+        var device = GetDevice();
+        if (device == null)
+        {
+            Debug.LogErrorFormat("not found device");
+            return false;
+        }
+        return device.GetPress(SteamVR_Controller.ButtonMask.Touchpad);
     }
     /// <summary>
     /// コントローラーを振動させる.
