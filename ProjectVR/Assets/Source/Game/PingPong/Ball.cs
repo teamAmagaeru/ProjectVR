@@ -25,7 +25,8 @@ public class Ball : MonoBehaviour {
 		m_index = in_index;
 		m_init_data = in_init_data;
 
-		GetComponent<Rigidbody>().AddForce( in_init_data.force );
+		var rigid = GetComponent<Rigidbody>();
+		rigid.AddForce( in_init_data.force );
 
 
 		m_bound_cnt = 0;

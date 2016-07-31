@@ -13,6 +13,9 @@ public class Shooter : MonoBehaviour {
 	public void Init( InputManager.eDeviceType device_type)
 	{
 		m_device_type = device_type;
+		transform.parent = InputManager.GetTransform( m_device_type );
+		transform.localPosition = Vector3.zero;
+
 	}
 
 	// Update is called once per frame
@@ -21,7 +24,7 @@ public class Shooter : MonoBehaviour {
 		{
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
 			Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
-			Vector3 force = new Vector3( eulerAngles.x , eulerAngles.y , eulerAngles.z );
+			Vector3 force = transform.forward * 300;
 			ball_init_data.force = force;
 			ball_init_data.bound_num = -1;
 			ball_init_data.time = -1;
@@ -40,6 +43,10 @@ public class Shooter : MonoBehaviour {
 		*/
 
 		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
+		Vector3 add_pos = ball_init_data.force.normalized;
+		ball_obj.transform.position = new Vector3( transform.position.x , transform.position.y , transform.position.z );
+		ball_obj.transform.position += add_pos * 0.1f;
+		ball_obj.transform.rotation = new Quaternion( transform.rotation.x , transform.rotation.y , transform.rotation.z , transform.rotation.w );
 		var ball_data = ball_obj.GetComponent<Ball>();
 		ball_data.Init(this , m_ball_index , ball_init_data );
 		m_ball_list.Add( ball_data );
