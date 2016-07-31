@@ -66,6 +66,10 @@ public class SystemManager : MonoBehaviour {
                 {
                     ChangeScene("stageSelect");
                 }
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    ChangeScene("pingpong");
+                }
                 break;
         }
 	}
