@@ -60,17 +60,35 @@ public class GameStateManager : MonoBehaviour {
 
 	void GenerateMap()
 	{
+
+		GenerateGoal();
+
+
+	}
+
+	/// <summary>
+	/// 次のゴールを配置するだけ
+	/// </summary>
+	void GenerateGoal()
+	{
 		//ゴールの座標計算
 		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
 
 		Vector3 pos = new Vector3();
 		pos.x = Random.Range( -5.0f , 5.0f );
-		pos.y = Random.Range(  0.5f , 1.5f );
-		pos.z = Random.Range(  1.0f , 3.0f );
+		pos.y = Random.Range( 0.5f , 1.5f );
+		pos.z = Random.Range( 1.0f , 3.0f );
 
 		goal_obj.transform.position = pos;
 		m_goal.Add( goal_obj.GetComponent<GoalTarget>() );
+	}
 
+	/// <summary>
+	/// 全ウェーブ分計算をする
+	/// 計算用の透明オブジェクトで全データができるまで計算
+	/// </summary>
+	void CalcGoalPos()
+	{
 	}
 
 
