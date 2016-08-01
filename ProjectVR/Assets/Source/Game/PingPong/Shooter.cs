@@ -13,9 +13,13 @@ public class Shooter : MonoBehaviour {
     private TimeCounter m_chargeTime = null;
     private int m_chargeLevel = 0;
 
-	public void Init( InputManager.eDeviceType device_type)
+	private ResultData m_result_data;
+
+
+	public void Init( InputManager.eDeviceType device_type , ResultData result_data )
 	{
 		m_device_type = device_type;
+		m_result_data = result_data;
 		transform.parent = InputManager.GetTransform( m_device_type );
 		transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
@@ -24,6 +28,7 @@ public class Shooter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		if( InputManager.IsPullTrigger( m_device_type ) )
 		{
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
@@ -78,6 +83,11 @@ public class Shooter : MonoBehaviour {
 			return;
 		}
 		*/
+		if( m_result_data.IsFinish() )
+		{
+			return;
+		}
+
 
 		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
 		Vector3 add_pos = ball_init_data.force.normalized;
@@ -89,6 +99,9 @@ public class Shooter : MonoBehaviour {
 		m_ball_list.Add( ball_data );
 
 		m_ball_index++;
+
+		m_result_data.AddBallCnt();
+
 	}
 
 	public void DeleteBall( Ball ball )
@@ -106,6 +119,5 @@ public class Shooter : MonoBehaviour {
 		}
 		m_ball_list.Clear();
 	}
-
 
 }
