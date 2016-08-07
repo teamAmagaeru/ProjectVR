@@ -12,13 +12,43 @@ public class UIManager {
     /// <param name="num">開始時の数</param>
     public static void EnableNumBullet(int num)
     {
-
+        if (numBullets == null)
+        {
+            return;
+        }
+        if (InputManager.ExistDevice(InputManager.eDeviceType.Left))
+        {
+            var t = Utility.Create<UINumBullet>("Prefab/UI/NumBullet");
+            t.SetNumBullet(num);
+            Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Left), t.transform);
+            numBullets[0] = t;
+        }
+        if (InputManager.ExistDevice(InputManager.eDeviceType.Right))
+        {
+            var t = Utility.Create<UINumBullet>("Prefab/UI/NumBullet");
+            t.SetNumBullet(num);
+            Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Right), t.transform);
+            numBullets[1] = t;
+        }
     }
     /// <summary>
     /// 残段数非表示.
     /// </summary>
     public static void DisableNumBullet()
     {
+        if (numBullets == null)
+        {
+            return;
+        }
+        for (int i = 0; i < numBullets.Length; ++i)
+        {
+            if (numBullets[i] == null)
+            {
+                continue;
+            }
+            GameObject.Destroy(numBullets[i].gameObject);
+            numBullets[i] = null;
+        }
     }
     /// <summary>
     /// 残段数をセット.
@@ -26,11 +56,18 @@ public class UIManager {
     /// <param name="num">残段数</param>
     public static void SetNumBullet(int num)
     {
-        if (numBullet == null)
+        if (numBullets == null)
         {
             return;
         }
-        numBullet.SetNumBullet(num);
+        foreach (var b in numBullets)
+        {
+            if (b == null)
+            {
+                continue;
+            }
+            b.SetNumBullet(num);
+        }
     }
 
     /// <summary>
@@ -127,8 +164,8 @@ public class UIManager {
 
 
 #region //--------------------登録とか--------------------//
-    UINumBullet m_numBullet = null;
-    public static UINumBullet numBullet
+    UINumBullet[] m_numBullets = new UINumBullet[2];
+    public static UINumBullet[] numBullets
     {
         get
         {
@@ -136,7 +173,7 @@ public class UIManager {
             {
                 return null;
             }
-            return m_instance.m_numBullet;
+            return m_instance.m_numBullets;
         }
         set
         {
@@ -144,7 +181,7 @@ public class UIManager {
             {
                 return;
             }
-            m_instance.m_numBullet = value;
+            m_instance.m_numBullets = value;
         }
     }
     UIWave m_wave = null;

@@ -37,6 +37,7 @@ public class SystemManager : MonoBehaviour {
             case eStep.Init:
                 CharaManager.SysCreate();
                 InputManager.SysCreate();
+                UIManager.SysCreate();
                 ++m_step;
                 break;
             case eStep.InitWait:
@@ -45,6 +46,7 @@ public class SystemManager : MonoBehaviour {
             case eStep.Update:
                 CharaManager.SysUpdate();
                 InputManager.SysUpdate();
+                UIManager.SysUpdate();
                 if (InputManager.IsPullTrigger(InputManager.eDeviceType.Left))
                 {
                     InputManager.TriggerHapticPulse(InputManager.eDeviceType.Left, Define.Controller.ShootVibrationValue, Define.Controller.ShootVibrationTime);
