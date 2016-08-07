@@ -9,7 +9,7 @@ public class UIWave : MonoBehaviour {
     TextMesh m_textMesh = null;
 	// Use this for initialization
 	void Start () {
-        UIManager.RegistWave(this);
+        UIManager.wave =this;
         m_textMesh = GetComponent<TextMesh>();
 	}
 	

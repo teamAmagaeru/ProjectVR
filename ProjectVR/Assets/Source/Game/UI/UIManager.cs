@@ -12,38 +12,49 @@ public class UIManager {
     /// <param name="num">残段数</param>
     public static void SetNumBullet(int num)
     {
+        if (numBullet == null)
+        {
+            return;
+        }
+        numBullet.SetNumBullet(num);
     }
-    
+
     /// <summary>
     /// waveを表示.
     /// </summary>
-    /// <param name="wave">表示したいwave</param>
-    public static void AppearWave(int wave)
+    /// <param name="value">表示したいwave</param>
+    public static void AppearWave(int value)
     {
-        if (m_instance == null)
+        if (wave == null)
         {
             return;
         }
-        if (m_instance.m_wave == null)
-        {
-            return;
-        }
-        m_instance.m_wave.AppearWave(wave);
+        wave.AppearWave(value);
     }
 
     /// <summary>
     /// スコアをセット.
     /// </summary>
-    /// <param name="score">現在のスコア</param>
-    public static void SetScore(int score)
+    /// <param name="value">現在のスコア</param>
+    public static void SetScore(int value)
     {
+        if (score == null)
+        {
+            return;
+        }
+        score.SetScore(value);
     }
     /// <summary>
     /// 追加点を表示.
     /// </summary>
-    /// <param name="score">追加点</param>
-    public static void AppearAddScore(int score)
+    /// <param name="value">追加点</param>
+    public static void AppearAddScore(int value)
     {
+        if (addScore == null)
+        {
+            return;
+        }
+        addScore.AddScore(value);
     }
 
     /// <summary>
@@ -52,30 +63,161 @@ public class UIManager {
     /// <param name="numBound">バウンド回数</param>
     public static void AppearShootResult(int numBound)
     {
+        if (shootResult == null)
+        {
+            return;
+        }
+        shootResult.SetResult(numBound);
     }
 
     /// <summary>
     /// 投げていい所定範囲を出てしまった場合のアラート表示.
     /// </summary>
-    public static void AppearOutOfRangeAlert()
+    public static void EnableOutOfRangeAlert()
     {
-
+        if (outOfRange == null)
+        {
+            return;
+        }
+        outOfRange.Enable();
+    }
+    /// <summary>
+    /// 投げていい所定範囲を出てしまった場合のアラート非表示.
+    /// </summary>
+    public static void DisableOutOfRangeAlert()
+    {
+        if (outOfRange == null)
+        {
+            return;
+        }
+        outOfRange.Disable();
     }
 
 
 
     #region //--------------------登録とか--------------------//
-    public static void RegistWave(UIWave obj)
+    UINumBullet m_numBullet = null;
+    public static UINumBullet numBullet
     {
-        if (m_instance == null)
+        get
         {
-            return;
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_numBullet;
         }
-        m_instance.m_wave = obj;
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_numBullet = value;
+        }
     }
     UIWave m_wave = null;
-#endregion
-#region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
+    public static UIWave wave
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_wave;
+        }
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_wave = value;
+        }
+    }
+    UIScore m_score = null;
+    public static UIScore score
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_score;
+        }
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_score = value;
+        }
+    }
+    UIAddScore m_addScore = null;
+    public static UIAddScore addScore
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_addScore;
+        }
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_addScore = value;
+        }
+    }
+    UIShootResult m_shootResult = null;
+    public static UIShootResult shootResult
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_shootResult;
+        }
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_shootResult = value;
+        }
+    }
+    UIOutOfRange m_outOfRange = null;
+    public static UIOutOfRange outOfRange
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                return null;
+            }
+            return m_instance.m_outOfRange;
+        }
+        set
+        {
+            if (m_instance == null)
+            {
+                return;
+            }
+            m_instance.m_outOfRange = value;
+        }
+    }
+    #endregion
+    #region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
     static public void SysCreate()
     {
         if (m_instance == null)
