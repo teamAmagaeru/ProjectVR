@@ -20,11 +20,21 @@ public class GameStateManager : MonoBehaviour {
 	private eGameState m_state = eGameState.Before;
 	private ResultData m_result_data = new ResultData();
 
+	//次のウェーブで開放するオブジェクトのID
+	private int m_next_release_id = 0;
+	//障害物
+	List<GameObject> m_obj_list = new List<GameObject>();
+	//ゴールの位置
+	List<Vector3> m_goal_pos_list = new List<Vector3>();
+	const int WAVE_MAX = 15;
+
+	bool m_next_coroutine_flg = false;
+	bool m_generate_goal_coroutine_flg = false;
 
 	void Awake()
 	{
 		m_state = eGameState.Before;
-		Init();
+		InitShooter();
 	}
 
 	void Init()
@@ -32,8 +42,10 @@ public class GameStateManager : MonoBehaviour {
 		m_result_data.Init(this);
 		m_ball_cnt = 0;
 		m_clear_cnt = 0;
-		InitShooter();
+		m_next_release_id = 0;
 		GenerateMap();
+		StartCoroutine( NextWave() );
+
 	}
 
 
@@ -60,37 +72,10 @@ public class GameStateManager : MonoBehaviour {
 
 	void GenerateMap()
 	{
-
-		GenerateGoal();
-
+		GenerateObjectByPrefab();
+		StartCoroutine( GenerateGoalPos() );
 
 	}
-
-	/// <summary>
-	/// 次のゴールを配置するだけ
-	/// </summary>
-	void GenerateGoal()
-	{
-		//ゴールの座標計算
-		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
-
-		Vector3 pos = new Vector3();
-		pos.x = Random.Range( -5.0f , 5.0f );
-		pos.y = Random.Range( 0.5f , 1.5f );
-		pos.z = Random.Range( 1.0f , 3.0f );
-
-		goal_obj.transform.position = pos;
-		m_goal.Add( goal_obj.GetComponent<GoalTarget>() );
-	}
-
-	/// <summary>
-	/// 全ウェーブ分計算をする
-	/// 計算用の透明オブジェクトで全データができるまで計算
-	/// </summary>
-	void CalcGoalPos()
-	{
-	}
-
 
 
 	// Update is called once per frame
@@ -107,8 +92,6 @@ public class GameStateManager : MonoBehaviour {
 				StateEnd();
 				break;
 		}
-
-
 	}
 
 
@@ -117,8 +100,8 @@ public class GameStateManager : MonoBehaviour {
 		//ゲームスタートしてから
 		{
 			ResetMap();
-			Init();
 			m_state = eGameState.Play;
+			Init();
 		}
 	}
 
@@ -128,7 +111,15 @@ public class GameStateManager : MonoBehaviour {
 		{
 			//waveクリア
 			m_clear_cnt++;
-			GenerateMap();
+			for( int i = 0 ; i < m_goal.Count ; i++ )
+			{
+				m_goal[i].OnDeleteFlg();
+			}
+			m_goal.Clear();
+			if( m_clear_cnt < WAVE_MAX-1 )
+			{
+				StartCoroutine( NextWave() );
+			}
 		}
 
 		if( IsGameFinish() )
@@ -150,6 +141,11 @@ public class GameStateManager : MonoBehaviour {
 	/// <returns></returns>
 	bool IsClear()
 	{
+		if( m_goal.Count == 0 )
+		{
+			return false;
+		}
+
 		int clear_goal_num = 0;
 		for( int i = 0 ; i < m_goal.Count ; i++ )
 		{
@@ -189,11 +185,165 @@ public class GameStateManager : MonoBehaviour {
 		{
 			m_goal[i].OnDeleteFlg();
 		}
+		this.m_goal.Clear();
+		this.m_goal_pos_list.Clear();
 	}
 
+	/// <summary>
+	/// ゲームが始まっているかチェック
+	/// </summary>
+	/// <returns></returns>
 	public bool IsStatePlay()
 	{
 		return m_state == eGameState.Play;
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public IEnumerator NextWave()
+	{
+		if( m_next_coroutine_flg )
+		{
+			yield break;
+		}
+		m_next_coroutine_flg = true;
+		//障害物かゴールの数が足りないとき待機
+		while( m_obj_list.Count <= m_next_release_id || m_goal_pos_list.Count <= m_next_release_id )
+		{
+			if( !IsStatePlay() )
+			{
+				m_next_coroutine_flg = false;
+				yield break;
+			}
+			yield return 0;
+		}
+
+		m_obj_list[m_next_release_id].layer = LayerMask.NameToLayer( "Field" );
+		m_obj_list[m_next_release_id].GetComponent<MeshRenderer>().enabled = true;
+
+
+		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
+		goal_obj.transform.position = this.m_goal_pos_list[m_next_release_id];
+		m_goal.Add( goal_obj.GetComponent<GoalTarget>() );
+
+		m_next_release_id++;
+
+		m_next_coroutine_flg = false;
+		yield return 0;
+	}
+
+	/// <summary>
+	/// ぷれはぶから障害物をランダムに配置
+	/// 不可視でゴール生成用レイヤーに非アクティブ状態で配置
+	/// </summary>
+	void GenerateObjectByPrefab()
+	{
+		if( m_obj_list.Count > 0 )
+		{
+			Destroy( m_obj_list[0].transform.parent.gameObject );
+			m_obj_list.Clear();
+		}
+
+		GameObject all_obj_base = Resources.Load<GameObject>( "Prefab/PingPong/AllObjects" );
+		GameObject all_obj = GameObject.Instantiate<GameObject>( all_obj_base );
+
+		List<int> child_id_list = new List<int>();
+
+		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
+		{
+			child_id_list.Add( i );
+		}
+
+		//順番をランダムにする
+		while( child_id_list.Count > 0 )
+		{
+			int child_id_key = Random.Range( 0 , child_id_list.Count );
+			int child_id = child_id_list[child_id_key];
+			GameObject obj = all_obj.transform.GetChild( child_id ).gameObject;
+
+			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
+			obj.GetComponent<MeshRenderer>().enabled = false;
+			obj.SetActive(false);
+			m_obj_list.Add( obj );
+
+			child_id_list.RemoveAt( child_id_key );
+
+		}
+
+	}
+
+	/// <summary>
+	/// ゴール位置が生成されるときに障害物をアクティブにする
+	/// </summary>
+	/// <returns></returns>
+	public IEnumerator GenerateGoalPos()
+	{
+		if( m_generate_goal_coroutine_flg )
+		{
+			yield break;
+		}
+		m_generate_goal_coroutine_flg = true;
+
+		while( this.m_goal_pos_list.Count < WAVE_MAX )
+		{
+			//ゴールと同じIDの障害物をアクティブにする
+			m_obj_list[this.m_goal_pos_list.Count].SetActive( true );
+			//ゴール生成用の球を飛ばす
+
+
+			var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
+			var ball_data = ball_obj.GetComponent<Ball>();
+			ball_obj.layer = LayerMask.NameToLayer( "CalcGoal" );
+
+			Ball.BallInitData ball_init_data = new Ball.BallInitData();
+			//球飛ばす位置
+			ball_obj.transform.position = new Vector3( 0f , 1f , 0f );
+			//球飛ばす強さ
+			int force_type = Random.Range( 0 , Define.Shooter.ChargeSetting.Length );
+			//球飛ばす方向
+			Vector3 angle = new Vector3( Random.Range( -1f , 1f ) , Random.Range( -1f , 1f ) , Random.Range( 0.5f , 1f ) );
+			Vector3 force = angle.normalized * Define.Shooter.ChargeSetting[force_type].Speed;
+			ball_init_data.force = force;
+			ball_init_data.bound_num = -1;
+			ball_init_data.time = -1;
+			ball_data.Init( null , -1 , ball_init_data );
+
+
+			//球飛ばしてnフレーム経過したら、ゴール位置確定
+			//球が存在するフレーム数
+			int frame_end = 15 + Random.Range( 0 , 5 );
+			int now_frame = 0;
+			while( now_frame < frame_end )
+			{
+				now_frame++;
+
+				if( ! IsStatePlay() )
+				{
+					m_generate_goal_coroutine_flg = false;
+					yield break;
+				}
+
+				yield return 0;
+			}
+
+			//位置決定
+
+			Vector3 pos = new Vector3();
+			pos.x = Random.Range( -5.0f , 5.0f );
+			pos.y = Random.Range( 0.5f , 1.5f );
+			pos.z = Random.Range( 1.0f , 3.0f );
+			
+
+			m_goal_pos_list.Add( ball_obj.transform.position );
+			ball_data.OnDeleteFlg();
+
+		}
+
+		m_generate_goal_coroutine_flg = false;
+
+		yield return 0;
 	}
 
 }
