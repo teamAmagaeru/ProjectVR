@@ -6,11 +6,11 @@ public class NotHtcInput : MonoBehaviour {
     InputManager.eDeviceType m_deviceType;
 	// Use this for initialization
 	void Start () {
-        if (gameObject.name == "LeftDevice")
+        if (gameObject.name == "Controller (left)")
         {
             m_deviceType = InputManager.eDeviceType.Left;
         }
-        if (gameObject.name == "RightDevice")
+        if (gameObject.name == "Controller (right)")
         {
             m_deviceType = InputManager.eDeviceType.Right;
         }

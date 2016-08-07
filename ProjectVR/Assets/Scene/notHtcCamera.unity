@@ -436,7 +436,7 @@ GameObject:
   - 4: {fileID: 889067290}
   - 114: {fileID: 889067291}
   m_Layer: 0
-  m_Name: RightDevice
+  m_Name: Controller (right)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ GameObject:
   - 4: {fileID: 1367386198}
   - 114: {fileID: 1367386199}
   m_Layer: 0
-  m_Name: LeftDevice
+  m_Name: Controller (left)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

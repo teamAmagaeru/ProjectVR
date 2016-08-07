@@ -52,7 +52,12 @@ public class InputManager
         }
         return input.transform;
 #else
-        return GameObject.Find(GetDeviceName(deviceType)).transform;
+        GameObject obj = GetDevice(deviceType);
+        if (obj != null)
+        {
+            return GetDevice(deviceType).transform;
+        }
+        return null;
 #endif
     }
     /// <summary>
