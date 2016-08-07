@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ResultData {
 
-	const int BALL_MAX = 20;
+	public const int BALL_MAX = 20;
 	int m_ball_cnt = 0;
 	GameStateManager m_state_manager;
 

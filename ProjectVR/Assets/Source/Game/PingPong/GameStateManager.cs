@@ -102,6 +102,7 @@ public class GameStateManager : MonoBehaviour {
 			ResetMap();
 			m_state = eGameState.Play;
 			Init();
+			UIManager.EnableNumBullet(ResultData.BALL_MAX);
 		}
 	}
 
@@ -126,12 +127,12 @@ public class GameStateManager : MonoBehaviour {
 		{
 			//ゲーム終了
 			ResetMap();
-
 			m_state = eGameState.End;
 		}
 	}
 	void StateEnd()
 	{
+		UIManager.DisableNumBullet();
 		m_state = eGameState.Before;
 	}
 
