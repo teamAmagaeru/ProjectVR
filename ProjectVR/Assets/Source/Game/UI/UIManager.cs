@@ -7,6 +7,20 @@ using System.Collections;
 public class UIManager {
 
     /// <summary>
+    /// 残段数表示.
+    /// </summary>
+    /// <param name="num">開始時の数</param>
+    public static void EnableNumBullet(int num)
+    {
+
+    }
+    /// <summary>
+    /// 残段数非表示.
+    /// </summary>
+    public static void DisableNumBullet()
+    {
+    }
+    /// <summary>
     /// 残段数をセット.
     /// </summary>
     /// <param name="num">残段数</param>
@@ -32,6 +46,21 @@ public class UIManager {
         wave.AppearWave(value);
     }
 
+    /// <summary>
+    /// スコア表示.
+    /// </summary>
+    /// <param name="value">開始時の点数</param>
+    public static void EnableScore(int value)
+    {
+
+    }
+    /// <summary>
+    /// スコア非表示.
+    /// </summary>
+    public static void DisableScore(int value)
+    {
+
+    }
     /// <summary>
     /// スコアをセット.
     /// </summary>
@@ -79,7 +108,8 @@ public class UIManager {
         {
             return;
         }
-        outOfRange.Enable();
+        // prefab読み込みに変更.
+//        outOfRange.Enable();
     }
     /// <summary>
     /// 投げていい所定範囲を出てしまった場合のアラート非表示.
@@ -90,12 +120,13 @@ public class UIManager {
         {
             return;
         }
-        outOfRange.Disable();
+        // prefab削除に変更.
+//        outOfRange.Disable();
     }
 
 
 
-    #region //--------------------登録とか--------------------//
+#region //--------------------登録とか--------------------//
     UINumBullet m_numBullet = null;
     public static UINumBullet numBullet
     {
@@ -196,8 +227,8 @@ public class UIManager {
             m_instance.m_shootResult = value;
         }
     }
-    UIOutOfRange m_outOfRange = null;
-    public static UIOutOfRange outOfRange
+    GameObject m_outOfRange = null;
+    public static GameObject outOfRange
     {
         get
         {
@@ -216,8 +247,8 @@ public class UIManager {
             m_instance.m_outOfRange = value;
         }
     }
-    #endregion
-    #region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
+#endregion
+#region local //-----------------------------ここから先は外部から見る必要なし-----------------------------//
     static public void SysCreate()
     {
         if (m_instance == null)
