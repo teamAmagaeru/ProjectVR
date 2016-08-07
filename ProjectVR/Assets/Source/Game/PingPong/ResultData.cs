@@ -36,6 +36,7 @@ public class ResultData {
 			return;
 		}
 		m_ball_cnt++;
+		UIManager.SetNumBullet( BALL_MAX - m_ball_cnt );
 	}
 
 }
