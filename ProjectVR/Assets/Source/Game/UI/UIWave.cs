@@ -5,12 +5,9 @@ using System.Collections;
 /// wave管理.
 /// </summary>
 public class UIWave : MonoBehaviour {
-
-    TextMesh m_textMesh = null;
+    
 	// Use this for initialization
 	void Start () {
-        UIManager.wave =this;
-        m_textMesh = GetComponent<TextMesh>();
 	}
 	
 	// Update is called once per frame
@@ -20,10 +17,10 @@ public class UIWave : MonoBehaviour {
 
     public void AppearWave(int wave)
     {
-        if (m_textMesh == null)
+        TextMesh[] textMesh = transform.GetComponentsInChildren<TextMesh>();
+        if (textMesh != null && textMesh.Length>0 && textMesh[0] != null)
         {
-            m_textMesh.text = "wave " + wave;
+            textMesh[0].text = "wave " + wave;
         }
-        // TODO : アニメーション制御は後で.
     }
 }

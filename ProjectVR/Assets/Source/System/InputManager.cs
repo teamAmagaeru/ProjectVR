@@ -45,23 +45,14 @@ public class InputManager
     static public Transform GetTransform(eDeviceType deviceType)
     {
 #if ENABLE_HTC
-        ViveInput input = GetViveInput(deviceType);
+        GameObject input = GetDevice(deviceType);
         if (input == null)
         {
             return null;
         }
         return input.transform;
 #else
-        string name = "";
-        switch (deviceType) {
-            case eDeviceType.Left:
-                name = "LeftDevice";
-                break;
-            case eDeviceType.Right:
-                name = "RightDevice";
-                break;
-        }
-        return GameObject.Find(name).transform;
+        return GameObject.Find(GetDeviceName(deviceType)).transform;
 #endif
     }
     /// <summary>
@@ -150,7 +141,7 @@ public class InputManager
     static string[] m_deviceName = new string[(int)eDeviceType.Num] {
         "Controller (left)",
         "Controller (right)",
-        "Camera (head)"
+        "Camera (eye)"
     };
     static string GetDeviceName(eDeviceType type)
     {
@@ -244,18 +235,22 @@ public class InputManager
     /// <returns>inputクラス.存在しなければnull</returns>
     static ViveInput GetViveInput(eDeviceType deviceType)
     {
-        if (m_instance == null)
-        {
-            Debug.LogError("no instance");
-            return null;
-        }
-        GameObject parent = GameObject.Find(GetDeviceName(deviceType));
+        GameObject parent = GetDevice(deviceType);
         if (parent == null)
         {
             return null;
         }
 
         return parent.GetComponent<ViveInput>();
+    }
+    static GameObject GetDevice(eDeviceType deviceType)
+    {
+        if (m_instance == null)
+        {
+            Debug.LogError("no instance");
+            return null;
+        }
+        return GameObject.Find(GetDeviceName(deviceType));
     }
 
 #endregion

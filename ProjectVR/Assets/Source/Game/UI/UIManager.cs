@@ -76,10 +76,8 @@ public class UIManager {
     /// <param name="value">表示したいwave</param>
     public static void AppearWave(int value)
     {
-        if (wave == null)
-        {
-            return;
-        }
+        UIWave wave = Utility.Create<UIWave>("Prefab/UI/WaveText");
+        Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), wave.transform);
         wave.AppearWave(value);
     }
 
@@ -182,26 +180,6 @@ public class UIManager {
                 return;
             }
             m_instance.m_numBullets = value;
-        }
-    }
-    UIWave m_wave = null;
-    public static UIWave wave
-    {
-        get
-        {
-            if (m_instance == null)
-            {
-                return null;
-            }
-            return m_instance.m_wave;
-        }
-        set
-        {
-            if (m_instance == null)
-            {
-                return;
-            }
-            m_instance.m_wave = value;
         }
     }
     UIScore m_score = null;
