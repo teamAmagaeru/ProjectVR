@@ -298,17 +298,17 @@ public class GameStateManager : MonoBehaviour {
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
 			//球飛ばす位置
 			ball_obj.transform.position = new Vector3(
-				Define.Generate.Goal.shoot_pos.x ,
-				Define.Generate.Goal.shoot_pos.y ,
-				Define.Generate.Goal.shoot_pos.z
+				Define.Generate.Goal.ShootPos.x ,
+				Define.Generate.Goal.ShootPos.y ,
+				Define.Generate.Goal.ShootPos.z
 			);
 			//球飛ばす強さ
 			int force_type = Random.Range( 0 , Define.Shooter.ChargeSetting.Length );
 			//球飛ばす方向
 			Vector3 angle = new Vector3(
-				Random.Range( Define.Generate.Goal.shoot_angle_min.x , Define.Generate.Goal.shoot_angle_max.x ) ,
-				Random.Range( Define.Generate.Goal.shoot_angle_min.y , Define.Generate.Goal.shoot_angle_max.y ) ,
-				Random.Range( Define.Generate.Goal.shoot_angle_min.z , Define.Generate.Goal.shoot_angle_max.z ) 
+				Random.Range( Define.Generate.Goal.ShootAngleMin.x , Define.Generate.Goal.ShootAngleMax.x ) ,
+				Random.Range( Define.Generate.Goal.ShootAngleMin.y , Define.Generate.Goal.ShootAngleMax.y ) ,
+				Random.Range( Define.Generate.Goal.ShootAngleMin.z , Define.Generate.Goal.ShootAngleMax.z ) 
 			);
 			Vector3 force = angle.normalized * Define.Shooter.ChargeSetting[force_type].Speed;
 			ball_init_data.force = force;
@@ -319,7 +319,7 @@ public class GameStateManager : MonoBehaviour {
 
 			//球飛ばしてnフレーム経過したら、ゴール位置確定
 			//球が存在するフレーム数
-			int frame_end = Random.Range( Define.Generate.Goal.put_goal_pos_frame_min , Define.Generate.Goal.put_goal_pos_frame_max );
+			int frame_end = Random.Range( Define.Generate.Goal.PutGoalPosFrameMin , Define.Generate.Goal.PutGoalPosFrameMax );
 			int now_frame = 0;
 			while( now_frame < frame_end )
 			{

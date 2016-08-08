@@ -38,7 +38,7 @@ public class Shooter : MonoBehaviour {
 			Vector3 force = transform.forward * Define.Shooter.ChargeSetting[m_chargeLevel].Speed;
 			ball_init_data.force = force;
 			ball_init_data.bound_num = -1;
-			ball_init_data.time = -1;
+			ball_init_data.time = Define.Shooter.ChargeSetting[m_chargeLevel].BallAliveFrame;
 			Shot( ball_init_data );
 		}
 
@@ -106,7 +106,7 @@ public class Shooter : MonoBehaviour {
 
 	void ShotRouteBall()
 	{
-		if( m_timer % Define.Shooter.OrbitPLan.shoot_frame != 0)
+		if( m_timer % Define.Shooter.OrbitPLan.ShootFrame != 0)
 		{
 			return;
 		}
@@ -120,7 +120,7 @@ public class Shooter : MonoBehaviour {
 		Vector3 force = transform.forward * Define.Shooter.ChargeSetting[m_chargeLevel].Speed;
 		ball_init_data.force = force;
 		ball_init_data.bound_num = -1;
-		ball_init_data.time = Define.Shooter.OrbitPLan.ball_delete_frame;
+		ball_init_data.time = Define.Shooter.OrbitPLan.BallDeleteFrame;
 
 
 		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
