@@ -80,6 +80,10 @@ public class SystemManager : MonoBehaviour {
                 {
                     ChangeScene("pingpong");
                 }
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    UIManager.AppearWave(10);
+                }
                 break;
         }
 	}
