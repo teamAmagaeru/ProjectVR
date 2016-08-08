@@ -76,7 +76,7 @@ public class UIManager {
     /// <param name="value">表示したいwave</param>
     public static void AppearWave(int value)
     {
-        UIWave wave = Utility.Create<UIWave>("Prefab/UI/WaveText");
+        UIWave wave = Utility.Create<UIWave>("Prefab/UI/3DText/levelNow");
         Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), wave.transform);
         wave.AppearWave(value);
     }
