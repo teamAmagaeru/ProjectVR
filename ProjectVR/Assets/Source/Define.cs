@@ -28,28 +28,31 @@ static public class Define{
         public class Charge {
             public float Time;  // 時間(sec).
             public float Speed; // スピード.
-            public Charge(float time, float speed)
+            public int BallAliveFrame; // 球の生存時間.
+            public Charge(float time , float speed , int ballAliveFrame )
             {
                 Time = time;
                 Speed = speed;
-            }
+				BallAliveFrame = ballAliveFrame;
+
+			}
         }
         // チャージ.
-        public static Charge[] ChargeSetting = new Charge[] {
+        public static readonly Charge[] ChargeSetting = new Charge[] {
             // 0秒は必須.
-            new Charge(0.0f, 300.0f),
-            new Charge(0.5f, 600.0f),
-            new Charge(1.0f, 900.0f),
-            new Charge(1.5f, 1500.0f),
+            new Charge(0.0f, 300.0f , 180),
+            new Charge(0.5f, 600.0f , 180),
+            new Charge(1.0f, 900.0f , 180),
+            new Charge(1.5f, 1500.0f , 180),
         };
 
 		//予測用の球関係のデータ
 		public static class OrbitPLan
 		{
 			//球を飛ばす感覚
-			public const int shoot_frame = 10;
+			public const int ShootFrame = 10;
 			//球が消えるフレーム
-			public const int ball_delete_frame = 60;
+			public const int BallDeleteFrame = 60;
 		}
 
     }
@@ -93,16 +96,17 @@ static public class Define{
 		static public class Goal
 		{
 			//ゴール生成用の球を発射する位置
-			public static readonly Vector3 shoot_pos = new Vector3( 0 , 0 , 0 );
+			public static readonly Vector3 ShootPos = new Vector3( 0 , 0 , 0 );
 			//ゴール生成用の球を発射する角度
-			public static readonly Vector3 shoot_angle_min = new Vector3( -1f , -1f , 0.5f );
-			public static readonly Vector3 shoot_angle_max = new Vector3( 1f , 1f , 1f );
+			public static readonly Vector3 ShootAngleMin = new Vector3( -1f , -1f , 0.5f );
+			public static readonly Vector3 ShootAngleMax = new Vector3( 1f , 1f , 1f );
 			//球飛ばしてからゴールの位置を決めるまでのフレーム
-			public const int put_goal_pos_frame_min = 15;
-			public const int put_goal_pos_frame_max = 30;
+			public const int PutGoalPosFrameMin = 15;
+			public const int PutGoalPosFrameMax = 30;
 
 		}
 
 	}
+
 
 }
