@@ -38,6 +38,10 @@ public class GoalTarget : MonoBehaviour
 
 			m_game_state_manager.Goal( ball.GetBoundNum() , transform.position );
 
+			var se_clip = Resources.Load<AudioClip>( "Sounds/goalSe" );
+			var se_data = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) );
+			se_data.GetComponent<AudioData>().Play( se_clip );
+
 			DeleteBall( ball );
 		}
 	}

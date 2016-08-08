@@ -106,6 +106,9 @@ public class Ball : MonoBehaviour {
 			var bound_effect = Instantiate<GameObject>( Resources.Load<GameObject>( "Effect/bounds" ) );
 			bound_effect.transform.position = col.contacts[0].point;
 
+			var bound_se_clip = Resources.Load<AudioClip>( "Sounds/boundsSe" );
+			var bound_se = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) );
+			bound_se.GetComponent<AudioData>().Play( bound_se_clip );
 		}
 	}
 

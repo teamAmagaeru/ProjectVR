@@ -102,6 +102,11 @@ public class Shooter : MonoBehaviour {
 
 		m_result_data.AddBallCnt();
 
+
+		var se_clip = Resources.Load<AudioClip>( "Sounds/shootSe" );
+		var se_data = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) );
+		se_data.GetComponent<AudioData>().Play( se_clip );
+
 	}
 
 	void ShotRouteBall()

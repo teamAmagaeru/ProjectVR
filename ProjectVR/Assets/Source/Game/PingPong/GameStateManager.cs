@@ -29,10 +29,16 @@ public class GameStateManager : MonoBehaviour {
 	bool m_next_coroutine_flg = false;
 	bool m_generate_goal_coroutine_flg = false;
 
+	AudioData m_bgm_data = null;
+
 	void Awake()
 	{
 		m_state = eGameState.Before;
 		InitShooter();
+
+		m_bgm_data = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) ).GetComponent<AudioData>();
+		var clip = Resources.Load<AudioClip>( "Sounds/titleBgm" );
+		m_bgm_data.GetComponent<AudioData>().Play( clip ,true);
 	}
 
 	void Init()
@@ -101,6 +107,9 @@ public class GameStateManager : MonoBehaviour {
 			Init();
 			UIManager.EnableNumBullet(ResultData.BALL_MAX);
 			UIManager.EnableScore(0);
+
+			var clip = Resources.Load<AudioClip>( "Sounds/playBgm" );
+			m_bgm_data.GetComponent<AudioData>().Play( clip , true );
 		}
 	}
 
@@ -111,6 +120,11 @@ public class GameStateManager : MonoBehaviour {
 			//waveクリア
 			m_clear_cnt++;
 			UIManager.AppearWave( m_clear_cnt );
+
+			var se_clip = Resources.Load<AudioClip>( "Sounds/lvelUpSe" );
+			var se_data = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) );
+			se_data.GetComponent<AudioData>().Play( se_clip );
+
 
 			for( int i = 0 ; i < m_goal.Count ; i++ )
 			{
