@@ -39,5 +39,15 @@ static public class Define{
             new Charge(1.0f, 900.0f),
             new Charge(1.5f, 1500.0f),
         };
+
+		//予測用の球関係のデータ
+		public static class OrbitPLan
+		{
+			//球を飛ばす感覚
+			public static int shoot_frame = 10;
+			//球が消えるフレーム
+			public static int ball_delete_frame = 60;
+		}
+
     }
 }

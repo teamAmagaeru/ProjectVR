@@ -15,6 +15,8 @@ public class Shooter : MonoBehaviour {
 
 	private ResultData m_result_data;
 
+	private int m_timer = 0;
+
 
 	public void Init( InputManager.eDeviceType device_type , ResultData result_data )
 	{
@@ -40,8 +42,10 @@ public class Shooter : MonoBehaviour {
 			Shot( ball_init_data );
 		}
 
-        // チャージ処理.
-        if (InputManager.IsPressTouchpad(m_device_type))
+		ShotRouteBall();
+
+		// チャージ処理.
+		if (InputManager.IsPressTouchpad(m_device_type))
         {
             if (m_chargeTime == null)
             {
@@ -72,7 +76,8 @@ public class Shooter : MonoBehaviour {
             m_chargeLevel = 0;
             m_chargeTime = null;
         }
-		
+
+		m_timer++;
 	}
 
 	void Shot( Ball.BallInitData ball_init_data )
@@ -83,11 +88,6 @@ public class Shooter : MonoBehaviour {
 			return;
 		}
 		*/
-		if( m_result_data.IsFinish() )
-		{
-			return;
-		}
-
 
 		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
 		Vector3 add_pos = ball_init_data.force.normalized;
@@ -102,6 +102,33 @@ public class Shooter : MonoBehaviour {
 
 		m_result_data.AddBallCnt();
 
+	}
+
+	void ShotRouteBall()
+	{
+		if( m_timer % Define.Shooter.OrbitPLan.shoot_frame != 0)
+		{
+			return;
+		}
+
+		Ball.BallInitData ball_init_data = new Ball.BallInitData();
+		Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
+		Vector3 force = transform.forward * Define.Shooter.ChargeSetting[m_chargeLevel].Speed;
+		ball_init_data.force = force;
+		ball_init_data.bound_num = -1;
+		ball_init_data.time = Define.Shooter.OrbitPLan.ball_delete_frame;
+
+
+		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
+		ball_obj.layer = LayerMask.NameToLayer( "RouteBall" );
+
+		Vector3 add_pos = ball_init_data.force.normalized;
+		ball_obj.transform.position = new Vector3( transform.position.x , transform.position.y , transform.position.z );
+		ball_obj.transform.position += add_pos * 0.1f;
+		ball_obj.transform.rotation = new Quaternion( transform.rotation.x , transform.rotation.y , transform.rotation.z , transform.rotation.w );
+		var ball_data = ball_obj.GetComponent<Ball>();
+		ball_data.Init( this , m_ball_index , ball_init_data );
+		m_ball_list.Add( ball_data );
 	}
 
 	public void DeleteBall( Ball ball )

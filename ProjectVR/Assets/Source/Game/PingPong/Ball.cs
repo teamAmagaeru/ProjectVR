@@ -47,6 +47,7 @@ public class Ball : MonoBehaviour {
 			}
 			Destroy( this.gameObject );
 		}
+		m_timer++;
 	}
 
 
