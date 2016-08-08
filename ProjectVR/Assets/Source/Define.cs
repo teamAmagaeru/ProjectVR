@@ -44,10 +44,28 @@ static public class Define{
 		public static class OrbitPLan
 		{
 			//球を飛ばす感覚
-			public static int shoot_frame = 10;
+			public const int shoot_frame = 10;
 			//球が消えるフレーム
-			public static int ball_delete_frame = 60;
+			public const int ball_delete_frame = 60;
 		}
 
     }
+
+	static public class Generate
+	{
+		static public class Goal
+		{
+			//ゴール生成用の球を発射する位置
+			public static readonly Vector3 shoot_pos = new Vector3( 0 , 0 , 0 );
+			//ゴール生成用の球を発射する角度
+			public static readonly Vector3 shoot_angle_min = new Vector3( -1f , -1f , 0.5f );
+			public static readonly Vector3 shoot_angle_max = new Vector3( 1f , 1f , 1f );
+			//球飛ばしてからゴールの位置を決めるまでのフレーム
+			public const int put_goal_pos_frame_min = 15;
+			public const int put_goal_pos_frame_max = 30;
+
+		}
+
+	}
+
 }

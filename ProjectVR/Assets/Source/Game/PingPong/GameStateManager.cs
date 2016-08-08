@@ -10,8 +10,6 @@ public class GameStateManager : MonoBehaviour {
 		End
 	}
 
-
-	static public int m_ball_cnt = 0;
 	private int m_clear_cnt = 0;
 
 	List<GoalTarget> m_goal = new List<GoalTarget>();
@@ -40,7 +38,6 @@ public class GameStateManager : MonoBehaviour {
 	void Init()
 	{
 		m_result_data.Init(this);
-		m_ball_cnt = 0;
 		m_clear_cnt = 0;
 		m_next_release_id = 0;
 		GenerateMap();
@@ -300,11 +297,19 @@ public class GameStateManager : MonoBehaviour {
 
 			Ball.BallInitData ball_init_data = new Ball.BallInitData();
 			//球飛ばす位置
-			ball_obj.transform.position = new Vector3( 0f , 1f , 0f );
+			ball_obj.transform.position = new Vector3(
+				Define.Generate.Goal.shoot_pos.x ,
+				Define.Generate.Goal.shoot_pos.y ,
+				Define.Generate.Goal.shoot_pos.z
+			);
 			//球飛ばす強さ
 			int force_type = Random.Range( 0 , Define.Shooter.ChargeSetting.Length );
 			//球飛ばす方向
-			Vector3 angle = new Vector3( Random.Range( -1f , 1f ) , Random.Range( -1f , 1f ) , Random.Range( 0.5f , 1f ) );
+			Vector3 angle = new Vector3(
+				Random.Range( Define.Generate.Goal.shoot_angle_min.x , Define.Generate.Goal.shoot_angle_max.x ) ,
+				Random.Range( Define.Generate.Goal.shoot_angle_min.y , Define.Generate.Goal.shoot_angle_max.y ) ,
+				Random.Range( Define.Generate.Goal.shoot_angle_min.z , Define.Generate.Goal.shoot_angle_max.z ) 
+			);
 			Vector3 force = angle.normalized * Define.Shooter.ChargeSetting[force_type].Speed;
 			ball_init_data.force = force;
 			ball_init_data.bound_num = -1;
@@ -314,7 +319,7 @@ public class GameStateManager : MonoBehaviour {
 
 			//球飛ばしてnフレーム経過したら、ゴール位置確定
 			//球が存在するフレーム数
-			int frame_end = 15 + Random.Range( 0 , 5 );
+			int frame_end = Random.Range( Define.Generate.Goal.put_goal_pos_frame_min , Define.Generate.Goal.put_goal_pos_frame_max );
 			int now_frame = 0;
 			while( now_frame < frame_end )
 			{
@@ -330,13 +335,6 @@ public class GameStateManager : MonoBehaviour {
 			}
 
 			//位置決定
-
-			Vector3 pos = new Vector3();
-			pos.x = Random.Range( -5.0f , 5.0f );
-			pos.y = Random.Range( 0.5f , 1.5f );
-			pos.z = Random.Range( 1.0f , 3.0f );
-			
-
 			m_goal_pos_list.Add( ball_obj.transform.position );
 			ball_data.OnDeleteFlg();
 
