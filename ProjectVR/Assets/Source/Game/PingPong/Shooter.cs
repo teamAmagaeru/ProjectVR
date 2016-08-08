@@ -112,7 +112,11 @@ public class Shooter : MonoBehaviour {
 		}
 
 		Ball.BallInitData ball_init_data = new Ball.BallInitData();
-		Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
+        if (InputManager.ExistDevice(m_device_type) == false)
+        {
+            return;
+        }
+        Vector3 eulerAngles = InputManager.GetTransform( m_device_type ).rotation.eulerAngles;
 		Vector3 force = transform.forward * Define.Shooter.ChargeSetting[m_chargeLevel].Speed;
 		ball_init_data.force = force;
 		ball_init_data.bound_num = -1;
