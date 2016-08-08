@@ -100,6 +100,7 @@ public class GameStateManager : MonoBehaviour {
 			m_state = eGameState.Play;
 			Init();
 			UIManager.EnableNumBullet(ResultData.BALL_MAX);
+			UIManager.EnableScore(0);
 		}
 	}
 
@@ -109,6 +110,8 @@ public class GameStateManager : MonoBehaviour {
 		{
 			//waveクリア
 			m_clear_cnt++;
+			UIManager.AppearWave( m_clear_cnt );
+
 			for( int i = 0 ; i < m_goal.Count ; i++ )
 			{
 				m_goal[i].OnDeleteFlg();
@@ -224,12 +227,21 @@ public class GameStateManager : MonoBehaviour {
 
 		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
 		goal_obj.transform.position = this.m_goal_pos_list[m_next_release_id];
-		m_goal.Add( goal_obj.GetComponent<GoalTarget>() );
+		GoalTarget goal = goal_obj.GetComponent<GoalTarget>();
+		goal.Init( this );
+		m_goal.Add( goal );
 
 		m_next_release_id++;
 
 		m_next_coroutine_flg = false;
 		yield return 0;
+	}
+
+	public void Goal( int bound_num , Vector3 position)
+	{
+
+		m_result_data.AddScoreByBoundNum( bound_num , position );
+
 	}
 
 	/// <summary>

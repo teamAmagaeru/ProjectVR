@@ -81,9 +81,14 @@ public class Ball : MonoBehaviour {
 		return m_index;
 	}
 
+	public int GetBoundNum()
+	{
+		return m_bound_cnt;
+	}
 
 	void OnCollisionEnter( Collision col )
 	{
+		//バウンド
 		if( gameObject.layer == LayerMask.NameToLayer( "RouteBall" ) || gameObject.layer == LayerMask.NameToLayer( "CalcGoal" ) )
 		{
 			return;
@@ -92,17 +97,16 @@ public class Ball : MonoBehaviour {
 		{
 			return;
 		}
-		for( int i = 0 ; i < col.contacts.Length ; i++ )
+
+		m_bound_cnt++;
+
+		//演出
+		if( col.contacts.Length > 0 )
 		{
 			var bound_effect = Instantiate<GameObject>( Resources.Load<GameObject>( "Effect/bounds" ) );
-			bound_effect.transform.position = col.contacts[i].point;
-		}
+			bound_effect.transform.position = col.contacts[0].point;
 
-		/*
-		if( LayerMask.LayerToName( col.gameObject.layer ) == "Field" )
-		{
 		}
-		*/
 	}
 
 }

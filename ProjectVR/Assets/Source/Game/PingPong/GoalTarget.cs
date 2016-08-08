@@ -11,7 +11,12 @@ public class GoalTarget : MonoBehaviour
 	private bool m_is_clear = false;
 	private bool m_is_delete = false;
 
+	private GameStateManager m_game_state_manager = null;
 
+	public void Init( GameStateManager game_state_manager )
+	{
+		m_game_state_manager = game_state_manager;
+	}
 
 
 	// Update is called once per frame
@@ -30,6 +35,9 @@ public class GoalTarget : MonoBehaviour
 		if( ball != null )
 		{
 			m_is_clear = true;
+
+			m_game_state_manager.Goal( ball.GetBoundNum() , transform.position );
+
 			DeleteBall( ball );
 		}
 	}
