@@ -81,4 +81,28 @@ public class Ball : MonoBehaviour {
 		return m_index;
 	}
 
+
+	void OnCollisionEnter( Collision col )
+	{
+		if( gameObject.layer == LayerMask.NameToLayer( "RouteBall" ) || gameObject.layer == LayerMask.NameToLayer( "CalcGoal" ) )
+		{
+			return;
+		}
+		if( col.gameObject.layer != LayerMask.NameToLayer( "Field" ) )
+		{
+			return;
+		}
+		for( int i = 0 ; i < col.contacts.Length ; i++ )
+		{
+			var bound_effect = Instantiate<GameObject>( Resources.Load<GameObject>( "Effect/bounds" ) );
+			bound_effect.transform.position = col.contacts[i].point;
+		}
+
+		/*
+		if( LayerMask.LayerToName( col.gameObject.layer ) == "Field" )
+		{
+		}
+		*/
+	}
+
 }
