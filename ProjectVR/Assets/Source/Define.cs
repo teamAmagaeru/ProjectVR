@@ -6,7 +6,7 @@ using System.Collections;
 /// </summary>
 static public class Define{
 
-    //---------------------コントローラー系---------------------//
+    //---------------------コントローラー系---------------------//S
     static public class Controller
     {
         // ボールチャージ(もう使ってない).
@@ -20,7 +20,9 @@ static public class Define{
         public const ushort ShootVibrationValue = 1000;      // ボール発射時の振動強度.
         public const float  ShootVibrationTime = 0.1f;       // ボール発射時の振動時間(sec).
     }
-    //---------------------シューター系---------------------//
+    //---------------------コントローラー系---------------------//E
+
+    //---------------------シューター系---------------------//S
     static public class Shooter {
         // チャージの段階ごとの設定.
         public class Charge {
@@ -34,6 +36,7 @@ static public class Define{
         }
         // チャージ.
         public static Charge[] ChargeSetting = new Charge[] {
+            // 0秒は必須.
             new Charge(0.0f, 300.0f),
             new Charge(0.5f, 600.0f),
             new Charge(1.0f, 900.0f),
@@ -50,8 +53,42 @@ static public class Define{
 		}
 
     }
+    //---------------------シューター系---------------------//E
 
-	static public class Generate
+    //---------------------UI系---------------------//S
+    static public class UI {
+        // ウェーブの文字.
+        public const string waveTextLeft = "wave ";
+        public const string waveTextRight = "";
+        // 追加点の文字.
+        public const string addScoreTextLeft = "+";
+        public const string addScoreTextRight = "";
+        // シュート時の評価.
+        public class ShootResult {
+            public int bound;   // バウンド回数.
+            public string text; // 文字列.
+            public Color color; // 色.
+            public ShootResult(int in_bound, string in_text, Color in_color)
+            {
+                bound = in_bound;
+                text = in_text;
+                color = in_color;
+            }
+        }
+        public static ShootResult[] shootResults = new ShootResult[]
+        {
+            // 0回は必須.
+            new ShootResult(0,"dummy",Color.black),
+            new ShootResult(1,"OK",Color.black),
+            new ShootResult(2,"good",Color.black),
+            new ShootResult(3,"Great",Color.green),
+            new ShootResult(4,"Perfect",Color.red),
+        };
+    }
+
+    //---------------------UI系---------------------//E
+
+    static public class Generate
 	{
 		static public class Goal
 		{

@@ -40,4 +40,24 @@ public class Utility {
         child.localRotation = Quaternion.identity;
         child.localScale = Vector3.one;
     }
+    /// <summary>
+    /// 子供からコンポーネント取得.
+    /// 1つしか存在しないことが保証されている時のみ.
+    /// </summary>
+    /// <typeparam name="T">取得するコンポーネント</typeparam>
+    /// <param name="trans">親</param>
+    /// <returns>取得したコンポーネント.失敗時はデフォルト</returns>
+    static public T GetOneComponentInChildren<T>(Transform trans)
+    {
+        T[] compornent = trans.GetComponentsInChildren<T>();
+        if (compornent != null && compornent.Length > 0 && compornent[0] != null)
+        {
+            if (compornent.Length > 1) {
+                Debug.LogWarningFormat("コンポーネントが多かったよ");
+            }
+            return compornent[0];
+        }
+        Debug.LogErrorFormat("コンポーネントがなかったよ");
+        return default(T);
+    }
 }

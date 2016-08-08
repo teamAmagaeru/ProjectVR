@@ -87,14 +87,20 @@ public class UIManager {
     /// <param name="value">開始時の点数</param>
     public static void EnableScore(int value)
     {
-
+        score = Utility.Create<UIScore>("Prefab/UI/3DText/nowScore");
+        score.SetScore(value);
+        Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), score.transform);
     }
     /// <summary>
     /// スコア非表示.
     /// </summary>
-    public static void DisableScore(int value)
+    public static void DisableScore()
     {
-
+        if (score == null)
+        {
+            return;
+        }
+        GameObject.Destroy(score.gameObject);
     }
     /// <summary>
     /// スコアをセット.
@@ -114,11 +120,9 @@ public class UIManager {
     /// <param name="value">追加点</param>
     public static void AppearAddScore(int value)
     {
-        if (addScore == null)
-        {
-            return;
-        }
-        addScore.AddScore(value);
+        var addScore = Utility.Create<UIAddScore>("Prefab/UI/3DText/addScore");
+        addScore.SetScore(value);
+        Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), addScore.transform);
     }
 
     /// <summary>
@@ -127,11 +131,9 @@ public class UIManager {
     /// <param name="numBound">バウンド回数</param>
     public static void AppearShootResult(int numBound)
     {
-        if (shootResult == null)
-        {
-            return;
-        }
+        var shootResult = Utility.Create<UIShootResult>("Prefab/UI/3DText/evaluationMessaage");
         shootResult.SetResult(numBound);
+        Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), shootResult.transform);
     }
 
     /// <summary>
@@ -139,12 +141,13 @@ public class UIManager {
     /// </summary>
     public static void EnableOutOfRangeAlert()
     {
-        if (outOfRange == null)
+        if (outOfRange != null)
         {
             return;
         }
-        // prefab読み込みに変更.
-//        outOfRange.Enable();
+        Object loadObj = (GameObject)Resources.Load("Prefab/UI/3DText/warningMessage");
+        outOfRange = (GameObject)GameObject.Instantiate(loadObj);
+        Utility.SetParent(InputManager.GetTransform(InputManager.eDeviceType.Hmd), outOfRange.transform);
     }
     /// <summary>
     /// 投げていい所定範囲を出てしまった場合のアラート非表示.
@@ -155,8 +158,7 @@ public class UIManager {
         {
             return;
         }
-        // prefab削除に変更.
-//        outOfRange.Disable();
+        GameObject.Destroy(outOfRange);
     }
 
 
@@ -200,46 +202,6 @@ public class UIManager {
                 return;
             }
             m_instance.m_score = value;
-        }
-    }
-    UIAddScore m_addScore = null;
-    public static UIAddScore addScore
-    {
-        get
-        {
-            if (m_instance == null)
-            {
-                return null;
-            }
-            return m_instance.m_addScore;
-        }
-        set
-        {
-            if (m_instance == null)
-            {
-                return;
-            }
-            m_instance.m_addScore = value;
-        }
-    }
-    UIShootResult m_shootResult = null;
-    public static UIShootResult shootResult
-    {
-        get
-        {
-            if (m_instance == null)
-            {
-                return null;
-            }
-            return m_instance.m_shootResult;
-        }
-        set
-        {
-            if (m_instance == null)
-            {
-                return;
-            }
-            m_instance.m_shootResult = value;
         }
     }
     GameObject m_outOfRange = null;

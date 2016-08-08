@@ -36,7 +36,7 @@ public class UIWave : MonoBehaviour {
         TextMesh[] textMesh = transform.GetComponentsInChildren<TextMesh>();
         if (textMesh != null && textMesh.Length>0 && textMesh[0] != null)
         {
-            textMesh[0].text = "wave " + wave;
+            textMesh[0].text = Define.UI.waveTextLeft + wave + Define.UI.waveTextRight;
         }
         if (m_anim == null)
         {
