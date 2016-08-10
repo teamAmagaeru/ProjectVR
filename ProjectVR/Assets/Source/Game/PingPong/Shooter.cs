@@ -128,7 +128,7 @@ public class Shooter : MonoBehaviour {
 		ball_init_data.time = Define.Shooter.OrbitPLan.BallDeleteFrame;
 
 
-		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Ball" ) );
+		var ball_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/BallFake" ) );
 		ball_obj.layer = LayerMask.NameToLayer( "RouteBall" );
 
 		Vector3 add_pos = ball_init_data.force.normalized;
