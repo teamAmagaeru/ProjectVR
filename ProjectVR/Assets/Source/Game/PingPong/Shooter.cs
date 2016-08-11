@@ -40,7 +40,11 @@ public class Shooter : MonoBehaviour {
 			ball_init_data.bound_num = -1;
 			ball_init_data.time = Define.Shooter.ChargeSetting[m_chargeLevel].BallAliveFrame;
 			Shot( ball_init_data );
-		}
+
+            m_chargeTime = null;
+            m_chargeLevel = 0;
+
+        }
 
 		ShotRouteBall();
 
@@ -55,29 +59,47 @@ public class Shooter : MonoBehaviour {
             {
                 int level = 0;
                 m_chargeTime.Update();
-                for(int i=0;i<Define.Shooter.ChargeSetting.Length;++i)
+                // リセット.
+                if (m_chargeTime.time >= Define.Shooter.ChargeResetTime)
                 {
-                    if (m_chargeTime.time >= Define.Shooter.ChargeSetting[i].Time)
-                    {
-                        level = i;
-                    }
+                    m_chargeTime.time = 0.0f;
+                    m_chargeLevel = 0;
+                    Debug.LogFormat("チャージレベルリセット!");
+                    InputManager.TriggerHapticPulse(m_device_type, Define.Controller.ChangeResetVibrationValue, Define.Controller.ChangeResetVibrationTime);
                 }
-                if(m_chargeLevel != level)
+                else
                 {
-                    Debug.LogFormat("チャージレベル{0}にアップ!", level);
-                    m_chargeLevel = level;
-                    InputManager.TriggerHapticPulse(m_device_type, Define.Controller.LevelChangeVibrationValue, Define.Controller.LevelChangeVibrationTime);
+                    for (int i = 0; i < Define.Shooter.ChargeSetting.Length; ++i)
+                    {
+                        if (m_chargeTime.time >= Define.Shooter.ChargeSetting[i].Time)
+                        {
+                            level = i;
+                        }
+                    }
+                    if (m_chargeLevel != level)
+                    {
+                        Debug.LogFormat("チャージレベル{0}にアップ!", level);
+                        m_chargeLevel = level;
+                        InputManager.TriggerHapticPulse(m_device_type, Define.Controller.LevelChangeVibrationValue, Define.Controller.LevelChangeVibrationTime);
+                    }
                 }
             }
 
         }else
         {
-            // チャージを減らす処理めんどいし、離したらリセットで良くない...?.
-            m_chargeLevel = 0;
-            m_chargeTime = null;
+            // 離したらそのレベルをキープ.
+            if (m_chargeTime != null)
+            {
+                m_chargeTime.time = Define.Shooter.ChargeSetting[m_chargeLevel].Time;
+            }
+        }
+        if (m_chargeTime != null)
+        {
+//            Debug.Log("charge time = " + m_chargeTime.time);
         }
 
-		m_timer++;
+
+            m_timer++;
 	}
 
 	void Shot( Ball.BallInitData ball_init_data )
