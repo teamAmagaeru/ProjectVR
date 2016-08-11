@@ -74,5 +74,10 @@ public class Utility {
         {
             renderer.enabled = enable;
         }
+        int childNum = obj.transform.childCount;
+        for (int i = 0; i < childNum; ++i)
+        {
+            SetRendererEnable(obj.transform.GetChild(i).gameObject, enable);
+        }
     }
 }
