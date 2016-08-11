@@ -31,24 +31,23 @@ public class GameStateManager : MonoBehaviour {
 
 	AudioData m_bgm_data = null;
 
+	bool is_change_next_state = false;
+
 	void Awake()
 	{
+		is_change_next_state = false;
 		m_state = eGameState.Before;
 		InitShooter();
 
 		m_bgm_data = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/AudioData" ) ).GetComponent<AudioData>();
 		var clip = Resources.Load<AudioClip>( "Sounds/titleBgm" );
 		m_bgm_data.GetComponent<AudioData>().Play( clip ,true);
-	}
 
-	void Init()
-	{
-		m_result_data.Init(this);
-		m_clear_cnt = 0;
-		m_next_release_id = 0;
-		GenerateMap();
-		StartCoroutine( NextWave() );
 
+		var state_change_obj = GameObject.Instantiate( Resources.Load<GameObject>( "Prefab/PingPong/StateChangeObj" ) );
+		state_change_obj.GetComponent<StateChangeObj>().Init( this );
+
+		m_result_data.Init( this );
 	}
 
 
@@ -101,15 +100,10 @@ public class GameStateManager : MonoBehaviour {
 	void StateBefore()
 	{
 		//ゲームスタートしてから
+		if( is_change_next_state )
 		{
-			ResetMap();
-			m_state = eGameState.Play;
-			Init();
-			UIManager.EnableNumBullet(ResultData.BALL_MAX);
-			UIManager.EnableScore(0);
-
-			var clip = Resources.Load<AudioClip>( "Sounds/playBgm" );
-			m_bgm_data.GetComponent<AudioData>().Play( clip , true );
+			is_change_next_state = false;
+			StartStatePlay();
 		}
 	}
 
@@ -140,14 +134,16 @@ public class GameStateManager : MonoBehaviour {
 		if( IsGameFinish() )
 		{
 			//ゲーム終了
-			ResetMap();
-			m_state = eGameState.End;
+			StartStateEnd();
 		}
 	}
 	void StateEnd()
 	{
-		UIManager.DisableNumBullet();
-		m_state = eGameState.Before;
+		if( is_change_next_state )
+		{
+			is_change_next_state = false;
+			StartStateBefore();
+		}
 	}
 
 	/// <summary>
@@ -284,6 +280,9 @@ public class GameStateManager : MonoBehaviour {
 		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
 		{
 			GameObject obj = all_obj.transform.GetChild( i ).gameObject;
+			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
+			Utility.SetRendererEnable( obj , false );
+			obj.SetActive( false );
 			m_obj_list.Add( obj );
 		}
 		/*
@@ -374,6 +373,48 @@ public class GameStateManager : MonoBehaviour {
 		m_generate_goal_coroutine_flg = false;
 
 		yield return 0;
+	}
+
+
+	public void NextState()
+	{
+		is_change_next_state = true;
+	}
+
+	public void StartStateBefore()
+	{
+		UIManager.DisableNumBullet();
+		m_state = eGameState.Before;
+
+		var state_change_obj = GameObject.Instantiate( Resources.Load<GameObject>( "Prefab/PingPong/StateChangeObj" ) );
+		state_change_obj.GetComponent<StateChangeObj>().Init( this );
+	}
+	public void StartStatePlay()
+	{
+		ResetMap();
+		m_state = eGameState.Play;
+
+		m_clear_cnt = 0;
+		m_next_release_id = 0;
+		GenerateMap();
+		StartCoroutine( NextWave() );
+
+
+
+		UIManager.EnableNumBullet( ResultData.BALL_MAX );
+		UIManager.EnableScore( 0 );
+
+		var clip = Resources.Load<AudioClip>( "Sounds/playBgm" );
+		m_bgm_data.GetComponent<AudioData>().Play( clip , true );
+	}
+
+	public void StartStateEnd()
+	{
+		ResetMap();
+		m_state = eGameState.End;
+
+		var state_change_obj = GameObject.Instantiate( Resources.Load<GameObject>( "Prefab/PingPong/StateChangeObj" ) );
+		state_change_obj.GetComponent<StateChangeObj>().Init(this);
 	}
 
 }
