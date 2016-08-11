@@ -25,6 +25,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -36,7 +37,7 @@ Animation:
   m_GameObject: {fileID: 132240}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: ac5ea2c7693e24d4eb6d2f8c645ff145, type: 2}
+  m_Animation: {fileID: 7400000, guid: e5c9db5172b5daa4fb339152f9ea5ed3, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: ed9cde6ed62d8004a8e94021cafac4d7, type: 2}
   - {fileID: 7400000, guid: 434deb97640149d46b03ba0184bd9a3e, type: 2}
@@ -57,4 +58,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132240}
   m_IsPrefabParent: 1
-  m_IsExploded: 1

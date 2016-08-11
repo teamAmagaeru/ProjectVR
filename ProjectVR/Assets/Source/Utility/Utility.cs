@@ -60,4 +60,24 @@ public class Utility {
         Debug.LogErrorFormat("コンポーネントがなかったよ");
         return default(T);
     }
+
+    /// <summary>
+    /// レンダラーのenableを変更する.
+    /// 子供も全て.
+    /// </summary>
+    /// <param name="obj">変更したいゲームオブジェクトの親</param>
+    /// <param name="enable">enable</param>
+    static public void SetRendererEnable(GameObject obj, bool enable)
+    {
+        var renderer = obj.GetComponent<MeshRenderer>();
+        if (renderer != null)
+        {
+            renderer.enabled = enable;
+        }
+        int childNum = obj.transform.childCount;
+        for (int i = 0; i < childNum; ++i)
+        {
+            SetRendererEnable(obj.transform.GetChild(i).gameObject, enable);
+        }
+    }
 }
