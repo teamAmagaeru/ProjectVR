@@ -18,7 +18,11 @@ public class GoalTarget : MonoBehaviour
 	{
 		m_game_state_manager = game_state_manager;
 
-		m_particle_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Effect/goalDecoration" ) );
+		m_particle_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Particle Ribbon/Prefabs/Spiral_02.1.2 Fairydust" ) );
+		if( m_particle_obj.GetComponent<Particle>() == null )
+		{
+			m_particle_obj.AddComponent<Particle>();
+		}
 		m_particle_obj.transform.position = gameObject.transform.position;
 	}
 
