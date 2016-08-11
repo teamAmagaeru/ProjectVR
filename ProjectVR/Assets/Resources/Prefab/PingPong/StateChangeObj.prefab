@@ -22,9 +22,9 @@ GameObject:
   - 33: {fileID: 33000013026790494}
   - 65: {fileID: 65000013595523032}
   - 23: {fileID: 23000011574000882}
-  - 114: {fileID: 114000013655604052}
+  - 114: {fileID: 114000013894244642}
   m_Layer: 0
-  m_Name: SceneChangeObj
+  m_Name: StateChangeObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114000013655604052
+--- !u!114 &114000013894244642
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -99,6 +99,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012860796470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4016d471af2b83141a9d05ed77797f77, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e6eebdebe7d6c84da136de5e16aae34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
