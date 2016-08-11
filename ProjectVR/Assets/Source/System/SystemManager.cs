@@ -84,10 +84,57 @@ public class SystemManager : MonoBehaviour {
                 {
                     UIManager.AppearWave(10);
                 }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    UIManager.EnableScore(m_score);
+                }
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    UIManager.DisableScore();
+                }
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    m_score += 100;
+                    UIManager.SetScore(m_score);
+                    UIManager.AppearAddScore(100);
+                }
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    UIManager.AppearShootResult(0);
+                }
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    UIManager.AppearShootResult(1);
+                }
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    UIManager.AppearShootResult(2);
+                }
+                if (Input.GetKeyDown(KeyCode.H))
+                {
+                    UIManager.AppearShootResult(3);
+                }
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    UIManager.AppearShootResult(4);
+                }
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    UIManager.AppearShootResult(5);
+                }
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    UIManager.EnableOutOfRangeAlert();
+                }
+                if (Input.GetKeyDown(KeyCode.M))
+                {
+                    UIManager.DisableOutOfRangeAlert();
+                }
                 break;
         }
 	}
-    
+    int m_numBullet = 20;
+    int m_score = 1000;
     /// <summary>
     /// クラス生成.
     /// </summary>
