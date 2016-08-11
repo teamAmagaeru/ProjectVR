@@ -284,6 +284,9 @@ public class GameStateManager : MonoBehaviour {
 		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
 		{
 			GameObject obj = all_obj.transform.GetChild( i ).gameObject;
+			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
+			Utility.SetRendererEnable( obj , false );
+			obj.SetActive( false );
 			m_obj_list.Add( obj );
 		}
 		/*
