@@ -153,7 +153,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 91596567}
   - 65: {fileID: 91596568}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_wallRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,8 +183,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5, y: 1, z: 1}
+  m_Center: {x: 2.3, y: 0, z: 0}
 --- !u!1 &102342028
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 133927093}
   - 65: {fileID: 133927094}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,8 +260,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 5}
+  m_Center: {x: 0, y: 0, z: -1.8}
 --- !u!1 &192824368
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +504,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 527361949}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,6 +911,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 99.999954
       objectReference: {fileID: 0}
+    - target: {fileID: 153934, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6449896, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
@@ -1147,6 +1151,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 99.999954
       objectReference: {fileID: 0}
+    - target: {fileID: 153934, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6449896, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: d4abc7df6daac89498360bb42c3d3652, type: 2}
@@ -1164,7 +1172,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1171109461}
   - 65: {fileID: 1171109462}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1194,8 +1202,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 5}
+  m_Center: {x: 0, y: 0, z: 2.2}
 --- !u!1 &1216976372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,7 +1455,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1582360893}
   - 65: {fileID: 1582360894}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_ciel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1477,8 +1485,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 5, z: 1}
+  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!1001 &1605639762
 Prefab:
   m_ObjectHideFlags: 0
@@ -1533,6 +1541,10 @@ Prefab:
     - target: {fileID: 445250, guid: a6fc093a0074d544dbffabf79e98ea0c, type: 2}
       propertyPath: m_LocalScale.z
       value: 99.999954
+      objectReference: {fileID: 0}
+    - target: {fileID: 171150, guid: a6fc093a0074d544dbffabf79e98ea0c, type: 2}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a6fc093a0074d544dbffabf79e98ea0c, type: 2}
@@ -1664,7 +1676,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1688431648}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1778,7 +1790,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1842343733}
   - 65: {fileID: 1842343734}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_wallLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1808,8 +1820,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5, y: 1, z: 1}
+  m_Center: {x: -2.3, y: 0, z: 0}
 --- !u!1 &1930319761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,7 +1910,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1988594613}
   - 65: {fileID: 1988594614}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1928,8 +1940,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 5, z: 1}
+  m_Center: {x: 0, y: -1.8, z: 0}
 --- !u!1 &2020756815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,18 +1966,18 @@ LightProbeGroup:
   m_GameObject: {fileID: 2020756815}
   m_Enabled: 1
   m_SourcePositions:
-  - {x: 2.3751607, y: 2.4863029, z: 2.230927}
-  - {x: 2.356334, y: 2.5565472, z: -1}
-  - {x: 3.2205195, y: -1, z: 3.1957035}
-  - {x: 3.045659, y: -0.63785934, z: -2.9670553}
-  - {x: -2.2278376, y: 1.9261832, z: 3.8022926}
-  - {x: -1.8814582, y: 2.718297, z: -2.4874601}
-  - {x: -2.1689625, y: -1, z: 3.9056053}
+  - {x: 2.3751607, y: 0.9986454, z: 2.230927}
+  - {x: 2.356334, y: 1.0474597, z: -1}
+  - {x: 2.0116303, y: -1, z: 3.1957035}
+  - {x: 2.6504748, y: -0.32227224, z: -2.9670553}
+  - {x: -1.188907, y: 0.46852052, z: 3.1315753}
+  - {x: -0.85515773, y: 1.1156524, z: -2.4874601}
+  - {x: -1.8717598, y: -1, z: 3.4300814}
   - {x: -2.467524, y: -1, z: -2.9745455}
   - {x: -0.3800846, y: 0.06097591, z: 0.52}
   - {x: 0.35, y: 1.0524603, z: 0.52}
   - {x: -1.0633056, y: -0.96069944, z: 3.983647}
-  - {x: -1.9911107, y: -0.95394504, z: 1.6899377}
+  - {x: -1.5316995, y: -0.95394504, z: 1.6899377}
   - {x: 0.62801564, y: -0.9225019, z: 1.8137197}
   - {x: 1.2200292, y: -0.93882835, z: 3.9191623}
 --- !u!4 &2020756817

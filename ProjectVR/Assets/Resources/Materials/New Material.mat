@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 32d948545e2716648ae179cec78ec45f, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_CustomRenderQueue: 2000
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -52,6 +52,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _MatCap
+      second:
+        m_Texture: {fileID: 2800000, guid: 0a39f3c44ccff204fbf1b2c21ece08d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _MetallicGlossMap
       second:
         m_Texture: {fileID: 0}
@@ -86,8 +92,14 @@ Material:
         name: _DstBlend
       second: 0
     - first:
+        name: _GlossMapScale
+      second: 1
+    - first:
         name: _Glossiness
       second: 0.51
+    - first:
+        name: _GlossyReflections
+      second: 1
     - first:
         name: _LineWidth
       second: 0.01
@@ -107,6 +119,12 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _SmoothnessTextureChannel
+      second: 0
+    - first:
+        name: _SpecularHighlights
+      second: 1
+    - first:
         name: _SrcBlend
       second: 1
     - first:
@@ -124,10 +142,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.07055579, g: 0.5455017, b: 0.6397059, a: 0.147}
+      second: {r: 0, g: 0.83448267, b: 1, a: 0.147}
     - first:
         name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
+      second: {r: 0, g: 6.6587796, b: 9.287001, a: 1}
     - first:
         name: _FrameColor
       second: {r: 0, g: 0.68813366, b: 0.86764705, a: 1}

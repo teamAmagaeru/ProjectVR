@@ -143,7 +143,7 @@ ReflectionProbe:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IntensityMultiplier: 0.2
+  m_IntensityMultiplier: 0.98
   m_BlendDistance: 1
   m_HDR: 1
   m_BoxProjection: 0
