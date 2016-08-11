@@ -12,6 +12,7 @@ Material:
   m_LightmapFlags: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
+    OriginalShader: Standard
     RenderType: Transparent
   m_SavedProperties:
     serializedVersion: 2
