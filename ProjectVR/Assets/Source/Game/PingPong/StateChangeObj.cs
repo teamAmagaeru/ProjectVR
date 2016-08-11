@@ -15,7 +15,22 @@ public class StateChangeObj : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+
+
+		if( IsDelete() )
+		{
+			Destroy( this.gameObject );
+		}
+	}
+
+	bool IsDelete()
+	{
+		if( m_is_delete )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	void OnCollisionEnter( Collision col )
@@ -25,7 +40,7 @@ public class StateChangeObj : MonoBehaviour {
 		{
 			m_is_delete = true;
 
-			m_game_state_manager.Goal( ball.GetBoundNum() , transform.position );
+			m_game_state_manager.NextState();
 			ball.OnDeleteFlg();
 
 		}

@@ -6,6 +6,7 @@ public class SystemManager : MonoBehaviour {
     {
         LoadCameraScene();
         DontDestroyOnLoad(this);
+        Application.targetFrameRate = 90;
     }
     // Use this for initialization
     void Start ()
