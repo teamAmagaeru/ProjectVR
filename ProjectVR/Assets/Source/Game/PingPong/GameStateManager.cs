@@ -236,7 +236,7 @@ public class GameStateManager : MonoBehaviour {
 		}
 
 		m_obj_list[m_next_release_id].layer = LayerMask.NameToLayer( "Field" );
-		m_obj_list[m_next_release_id].GetComponent<MeshRenderer>().enabled = true;
+        Utility.SetRendererEnable(m_obj_list[m_next_release_id], true);
 
 
 		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
@@ -288,7 +288,7 @@ public class GameStateManager : MonoBehaviour {
 			GameObject obj = all_obj.transform.GetChild( child_id ).gameObject;
 
 			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
-			obj.GetComponent<MeshRenderer>().enabled = false;
+            Utility.SetRendererEnable(obj, false);
 			obj.SetActive(false);
 			m_obj_list.Add( obj );
 
