@@ -281,6 +281,12 @@ public class GameStateManager : MonoBehaviour {
 		}
 
 		//順番をランダムにする
+		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
+		{
+			GameObject obj = all_obj.transform.GetChild( child_id ).gameObject;
+			m_obj_list.Add( obj );
+		}
+		/*
 		while( child_id_list.Count > 0 )
 		{
 			int child_id_key = Random.Range( 0 , child_id_list.Count );
@@ -293,9 +299,8 @@ public class GameStateManager : MonoBehaviour {
 			m_obj_list.Add( obj );
 
 			child_id_list.RemoveAt( child_id_key );
-
 		}
-
+		*/
 	}
 
 	/// <summary>
