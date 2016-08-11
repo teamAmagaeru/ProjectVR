@@ -16,6 +16,9 @@ static public class Define{
         // ボールチャージ(レベルが変わったとき).
         public const ushort LevelChangeVibrationValue = 1000;   // レベル変更時の振動.
         public const float LevelChangeVibrationTime = 0.3f;     // レベル変更時の振動時間(sec).
+        // チャージリセット.
+        public const ushort ChangeResetVibrationValue = 1000;   // チャージリセット時の振動.
+        public const float ChangeResetVibrationTime = 0.5f;     // チャージリセット時の振動時間(sec).
         // ボール発射.
         public const ushort ShootVibrationValue = 1000;      // ボール発射時の振動強度.
         public const float  ShootVibrationTime = 0.1f;       // ボール発射時の振動時間(sec).
@@ -41,10 +44,11 @@ static public class Define{
         public static readonly Charge[] ChargeSetting = new Charge[] {
             // 0秒は必須.
             new Charge(0.0f, 300.0f , 180),
-            new Charge(0.5f, 600.0f , 180),
-            new Charge(1.0f, 900.0f , 180),
-            new Charge(1.5f, 1500.0f , 180),
+            new Charge(1.0f, 600.0f , 180),
+            new Charge(2.0f, 900.0f , 180),
+            new Charge(3.0f, 1500.0f , 180),
         };
+        public static float ChargeResetTime = 5.0f;    // チャージリセット時間(sec).
 
 		//予測用の球関係のデータ
 		public static class OrbitPLan

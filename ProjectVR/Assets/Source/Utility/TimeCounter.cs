@@ -19,6 +19,7 @@ public class TimeCounter {
     float m_time;
     public float time {
         get { return m_time; }
+        set { m_time = value; }
     }
     float m_targetTime;
 
