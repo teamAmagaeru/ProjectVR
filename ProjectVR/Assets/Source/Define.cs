@@ -110,6 +110,9 @@ static public class Define{
 
 		}
 
+
+		public static readonly Vector3 StateChangeObjPos = new Vector3(0f,1.5f,2f);
+
 	}
 
 
