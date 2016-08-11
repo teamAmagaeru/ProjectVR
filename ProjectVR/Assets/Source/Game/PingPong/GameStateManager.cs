@@ -283,7 +283,7 @@ public class GameStateManager : MonoBehaviour {
 		//順番をランダムにする
 		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
 		{
-			GameObject obj = all_obj.transform.GetChild( child_id ).gameObject;
+			GameObject obj = all_obj.transform.GetChild( i ).gameObject;
 			m_obj_list.Add( obj );
 		}
 		/*
