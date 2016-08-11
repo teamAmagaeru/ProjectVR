@@ -12,10 +12,14 @@ public class GoalTarget : MonoBehaviour
 	private bool m_is_delete = false;
 
 	private GameStateManager m_game_state_manager = null;
+	private GameObject m_particle_obj = null;
 
 	public void Init( GameStateManager game_state_manager )
 	{
 		m_game_state_manager = game_state_manager;
+
+		m_particle_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Effect/goalDecoration" ) );
+		m_particle_obj.transform.position = gameObject.transform.position;
 	}
 
 
@@ -26,6 +30,7 @@ public class GoalTarget : MonoBehaviour
 		if( IsDelete() )
 		{
 			Destroy( this.gameObject );
+			Destroy( this.m_particle_obj );
 		}
 	}
 
