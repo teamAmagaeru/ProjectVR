@@ -38,6 +38,8 @@ public class SystemManager : MonoBehaviour {
                 CharaManager.SysCreate();
                 InputManager.SysCreate();
                 UIManager.SysCreate();
+
+                ChangeScene("pingpong");
                 ++m_step;
                 break;
             case eStep.InitWait:
@@ -74,11 +76,11 @@ public class SystemManager : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    ChangeScene("stageSelect");
+//                    ChangeScene("stageSelect");
                 }
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    ChangeScene("pingpong");
+//                    ChangeScene("pingpong");
                 }
                 if (Input.GetKeyDown(KeyCode.O))
                 {
