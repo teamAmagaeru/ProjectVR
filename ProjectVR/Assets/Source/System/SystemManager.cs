@@ -40,10 +40,20 @@ public class SystemManager : MonoBehaviour {
                 InputManager.SysCreate();
                 UIManager.SysCreate();
 
-                ChangeScene("pingpong");
+                //ChangeScene("pingpong");
+                
                 ++m_step;
                 break;
             case eStep.InitWait:
+                if (InputManager.ExistDevice(InputManager.eDeviceType.Left) == false)
+                {
+                    break;
+                }
+                if (InputManager.ExistDevice(InputManager.eDeviceType.Right) == false)
+                {
+                    break;
+                }
+                ChangeScene("pingpong");
                 ++m_step;
                 break;
             case eStep.Update:
