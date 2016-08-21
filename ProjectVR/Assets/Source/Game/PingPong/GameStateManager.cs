@@ -20,10 +20,10 @@ public class GameStateManager : MonoBehaviour {
 
 	//次のウェーブで開放するオブジェクトのID
 	private int m_next_release_id = 0;
-	//障害物
-	List<GameObject> m_obj_list = new List<GameObject>();
-	//ゴールの位置
-	List<Vector3> m_goal_pos_list = new List<Vector3>();
+    //障害物
+    List<List<GameObject>> m_obj_list_list = new List<List<GameObject>>();
+    //ゴールの位置
+    List<Vector3> m_goal_pos_list = new List<Vector3>();
 	const int WAVE_MAX = 15;
 
 	bool m_next_coroutine_flg = false;
@@ -221,7 +221,7 @@ public class GameStateManager : MonoBehaviour {
 		}
 		m_next_coroutine_flg = true;
 		//障害物かゴールの数が足りないとき待機
-		while( m_obj_list.Count <= m_next_release_id || m_goal_pos_list.Count <= m_next_release_id )
+		while(m_obj_list_list.Count <= m_next_release_id || m_goal_pos_list.Count <= m_next_release_id )
 		{
 			if( !IsStatePlay() )
 			{
@@ -231,11 +231,13 @@ public class GameStateManager : MonoBehaviour {
 			yield return 0;
 		}
 
-		m_obj_list[m_next_release_id].layer = LayerMask.NameToLayer( "Field" );
-        Utility.SetRendererEnable(m_obj_list[m_next_release_id], true);
+        foreach( var obj_list in m_obj_list_list[m_next_release_id] ) {
+            obj_list.layer = LayerMask.NameToLayer("Field");
+            Utility.SetRendererEnable(obj_list, true);
+        }
 
 
-		GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
+        GameObject goal_obj = Instantiate<GameObject>( Resources.Load<GameObject>( "Prefab/PingPong/Goal" ) );
 		goal_obj.transform.position = this.m_goal_pos_list[m_next_release_id];
 		GoalTarget goal = goal_obj.GetComponent<GoalTarget>();
 		goal.Init( this );
@@ -260,46 +262,35 @@ public class GameStateManager : MonoBehaviour {
 	/// </summary>
 	void GenerateObjectByPrefab()
 	{
-		if( m_obj_list.Count > 0 )
+		if( m_obj_list_list.Count > 0 )
 		{
-			Destroy( m_obj_list[0].transform.parent.gameObject );
-			m_obj_list.Clear();
+            for ( int i = 0; i < m_obj_list_list.Count ; i++ )
+            {
+                for (int j = 0; j < m_obj_list_list.Count; j++)
+                {
+                    Destroy(m_obj_list_list[i][j]);
+                }
+                m_obj_list_list[i].Clear();
+            }
+
+            m_obj_list_list.Clear();
 		}
 
-		GameObject all_obj_base = Resources.Load<GameObject>( "Prefab/PingPong/AllObjects" );
-		GameObject all_obj = GameObject.Instantiate<GameObject>( all_obj_base );
+        //生成する
 
-		List<int> child_id_list = new List<int>();
 
-		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
-		{
-			child_id_list.Add( i );
-		}
 
-		//順番をランダムにする
+
 		for( int i = 0 ; i < all_obj.transform.childCount ; i++ )
 		{
 			GameObject obj = all_obj.transform.GetChild( i ).gameObject;
 			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
 			Utility.SetRendererEnable( obj , false );
-			obj.SetActive( false );
 			m_obj_list.Add( obj );
 		}
-		/*
-		while( child_id_list.Count > 0 )
-		{
-			int child_id_key = Random.Range( 0 , child_id_list.Count );
-			int child_id = child_id_list[child_id_key];
-			GameObject obj = all_obj.transform.GetChild( child_id ).gameObject;
 
-			obj.layer = LayerMask.NameToLayer( "CalcGoal" );
-            Utility.SetRendererEnable(obj, false);
-			obj.SetActive(false);
-			m_obj_list.Add( obj );
 
-			child_id_list.RemoveAt( child_id_key );
-		}
-		*/
+
 	}
 
 	/// <summary>
@@ -316,8 +307,6 @@ public class GameStateManager : MonoBehaviour {
 
 		while( this.m_goal_pos_list.Count < WAVE_MAX )
 		{
-			//ゴールと同じIDの障害物をアクティブにする
-			m_obj_list[this.m_goal_pos_list.Count].SetActive( true );
 			//ゴール生成用の球を飛ばす
 
 
